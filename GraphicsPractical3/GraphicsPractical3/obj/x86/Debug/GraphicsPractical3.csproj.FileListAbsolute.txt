@@ -1,0 +1,10 @@
+c:\users\tomas\documents\visual studio 2013\Projects\GraphicsPractical3\GraphicsPractical3\GraphicsPractical3\obj\x86\Debug\GraphicsPractical3.csprojResolveAssemblyReference.cache
+c:\users\tomas\documents\visual studio 2013\Projects\GraphicsPractical3\GraphicsPractical3\GraphicsPractical3\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
+c:\users\tomas\documents\visual studio 2013\Projects\GraphicsPractical3\GraphicsPractical3\GraphicsPractical3\bin\x86\Debug\Content\Effects\Simple.xnb
+c:\users\tomas\documents\visual studio 2013\Projects\GraphicsPractical3\GraphicsPractical3\GraphicsPractical3\bin\x86\Debug\Content\Models\Teapot.xnb
+c:\users\tomas\documents\visual studio 2013\Projects\GraphicsPractical3\GraphicsPractical3\GraphicsPractical3\bin\x86\Debug\Content\Normal Maps\CobblestonesNormal.xnb
+c:\users\tomas\documents\visual studio 2013\Projects\GraphicsPractical3\GraphicsPractical3\GraphicsPractical3\bin\x86\Debug\Content\Textures\CobblestonesDiffuse.xnb
+c:\users\tomas\documents\visual studio 2013\Projects\GraphicsPractical3\GraphicsPractical3\GraphicsPractical3\bin\x86\Debug\GraphicsPractical3.exe
+c:\users\tomas\documents\visual studio 2013\Projects\GraphicsPractical3\GraphicsPractical3\GraphicsPractical3\bin\x86\Debug\GraphicsPractical3.pdb
+c:\users\tomas\documents\visual studio 2013\Projects\GraphicsPractical3\GraphicsPractical3\GraphicsPractical3\obj\x86\Debug\GraphicsPractical3.exe
+c:\users\tomas\documents\visual studio 2013\Projects\GraphicsPractical3\GraphicsPractical3\GraphicsPractical3\obj\x86\Debug\GraphicsPractical3.pdb
