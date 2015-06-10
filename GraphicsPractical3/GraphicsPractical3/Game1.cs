@@ -80,7 +80,7 @@ namespace GraphicsPractical3
             // Load the "Simple" effect
             Effect effect = this.Content.Load<Effect>("Effects/Simple");
             // Load the model and let it use the "Simple" effect
-            this.model = this.Content.Load<Model>("Models/Teapot");
+            this.model = this.Content.Load<Model>("Models/femalehead");
             this.model.Meshes[0].MeshParts[0].Effect = effect;
             // Setup the quad
             this.setupQuad();
