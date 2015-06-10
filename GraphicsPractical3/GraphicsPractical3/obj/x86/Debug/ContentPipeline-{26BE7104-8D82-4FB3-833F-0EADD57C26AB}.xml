@@ -8,7 +8,7 @@
       <Processor>EffectProcessor</Processor>
       <Options>None</Options>
       <Output>c:\users\tomas\documents\visual studio 2013\Projects\GraphicsPractical3\GraphicsPractical3\GraphicsPractical3\bin\x86\Debug\Content\Effects\Simple.xnb</Output>
-      <Time>2015-06-04T19:03:17.1672371+02:00</Time>
+      <Time>2015-06-04T19:05:01.5018479+02:00</Time>
     </Item>
     <Item>
       <Source>Models\Teapot.fbx</Source>
@@ -55,10 +55,10 @@
       <TargetProfile>Reach</TargetProfile>
       <BuildConfiguration>Debug</BuildConfiguration>
       <CompressContent>false</CompressContent>
-      <RootDirectory>c:\users\tomas\documents\visual studio 2013\Projects\GraphicsPractical3\GraphicsPractical3\GraphicsPractical3Content\</RootDirectory>
-      <LoggerRootDirectory>c:\users\tomas\documents\visual studio 2013\Projects\GraphicsPractical3\GraphicsPractical3\GraphicsPractical3\</LoggerRootDirectory>
-      <IntermediateDirectory>c:\users\tomas\documents\visual studio 2013\Projects\GraphicsPractical3\GraphicsPractical3\GraphicsPractical3\obj\x86\Debug\</IntermediateDirectory>
-      <OutputDirectory>c:\users\tomas\documents\visual studio 2013\Projects\GraphicsPractical3\GraphicsPractical3\GraphicsPractical3\bin\x86\Debug\Content\</OutputDirectory>
+      <RootDirectory>C:\Users\Tomas\Documents\Visual Studio 2013\Projects\GraphicsPractical3\GraphicsPractical3\GraphicsPractical3Content\</RootDirectory>
+      <LoggerRootDirectory>C:\Users\Tomas\Documents\Visual Studio 2013\Projects\GraphicsPractical3\GraphicsPractical3\GraphicsPractical3\</LoggerRootDirectory>
+      <IntermediateDirectory>C:\Users\Tomas\Documents\Visual Studio 2013\Projects\GraphicsPractical3\GraphicsPractical3\GraphicsPractical3\obj\x86\Debug\</IntermediateDirectory>
+      <OutputDirectory>C:\Users\Tomas\Documents\Visual Studio 2013\Projects\GraphicsPractical3\GraphicsPractical3\GraphicsPractical3\bin\x86\Debug\Content\</OutputDirectory>
     </Settings>
     <Assemblies>
       <Assembly>
