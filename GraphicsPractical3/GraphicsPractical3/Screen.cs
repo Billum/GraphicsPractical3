@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using Ray = GraphicsPractical3.Geometry.Ray;
+
 
 namespace GraphicsPractical3
 {
