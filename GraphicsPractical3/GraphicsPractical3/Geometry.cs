@@ -63,9 +63,19 @@ namespace GraphicsPractical3.Geometry
 
             return new Ray(direction, origin);
         }
-        public Ray Refraction(Ray r)
+        public Ray Refraction(Ray r, float n1, float n2)
         {
+            float refrac = n1 / n2;
+            Vector3 origin = Hit(r);
+            Vector3 I = r.Direction;
+            Vector3 N = NormalOnSphere(r);
+            float cos_i = Vector3.Dot(I,N) / (N.Length() * I.Length());
+            Vector3 T = n1 / n2 * (I + cos_i * N);
+            float U = (float) Math.Sqrt(1 - T.Length() * T.Length());
 
+            Vector3 direction = (refrac * I) + (refrac * cos_i - U) * N;
+
+            return new Ray(direction, origin);
         }
     }
 
