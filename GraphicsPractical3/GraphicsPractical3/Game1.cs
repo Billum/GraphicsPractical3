@@ -57,9 +57,9 @@ namespace GraphicsPractical3
 
             // Initialize material properties
             this.modelMaterial = new Material();
-            modelMaterial.AmbientColor = Color.Red;
+            modelMaterial.AmbientColor = Color.Gold;
             modelMaterial.AmbientIntensity = 0.2f;
-            modelMaterial.DiffuseColor = Color.Red;
+            modelMaterial.DiffuseColor = Color.Gold;
             modelMaterial.DiffuseTexture = this.Content.Load<Texture>("Textures/CobblestonesDiffuse");
             modelMaterial.SpecularColor = Color.White;
             modelMaterial.SpecularIntensity = 2f;
@@ -162,7 +162,7 @@ namespace GraphicsPractical3
             // Matrices for 3D perspective projection
             this.camera.SetEffectParameters(effect);
             this.modelMaterial.SetEffectParameters(effect);
-            effect.Parameters["World"].SetValue(Matrix.CreateScale(10.0f));
+            effect.Parameters["World"].SetValue(Matrix.CreateScale(1.5f));
             effect.Parameters["WorldInverseTranspose"].SetValue(Matrix.CreateScale(10.0f));
             effect.Parameters["LightSourcePosition"].SetValue(new Vector3(50, 20, 50));
             effect.Parameters["Camera"].SetValue(camera.Eye);
