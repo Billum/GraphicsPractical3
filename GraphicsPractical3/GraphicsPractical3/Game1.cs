@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using Primitive = GraphicsPractical3.Geometry.Primitive;
 
 namespace GraphicsPractical3
 {
@@ -24,6 +25,7 @@ namespace GraphicsPractical3
         // Model
         private Model model;
         private Material modelMaterial;
+        private Primitive[] primitives;
 
         // Quad
         private VertexPositionNormalTexture[] quadVertices;

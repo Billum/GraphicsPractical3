@@ -19,10 +19,10 @@ namespace GraphicsPractical3.Geometry
         public Material Material;
         public Vector3 Center;
         public float Radius;
-        public Sphere(Vector3 center, float radius)
+        public Sphere(Vector3 Center, float Radius)
         {
-            this.Center = center;
-            this.Radius = radius;
+            this.Center = Center;
+            this.Radius = Radius;
         }
 
         public Vector3 Hit(Ray r)
@@ -62,6 +62,18 @@ namespace GraphicsPractical3.Geometry
             Vector3 a = i - Center;
 
             return Vector3.Normalize(a);
+        }
+    }
+    public class Triangle : Primitive
+    {
+        public Material Material;
+        public Color Color;
+        public Point Origin;
+        public Vector3 A;
+        public Vector3 B;
+        public Triangle(Point origin, Vector3 A, Vector3 B)
+        {
+
         }
     }
     public struct Ray
