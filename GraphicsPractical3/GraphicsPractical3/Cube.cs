@@ -15,10 +15,37 @@ namespace Geometry
             this.Center = center;
             this.Radius = radius;
         }
-        public Vector3 Hit(Ray ray, Sphere sphere)
+
+        public Vector3 Hit(Ray r)
         {
-            Vector3 v = ray.Origin - sphere.Center;
-            float a = Vector3.Dot(v, ray.Direction);
+            float t = 0;
+            Vector3 q = new Vector3();
+
+            Vector3 m = r.Origin - Center;
+            float b = Vector3.Dot(m, r.Direction);
+            float c = Vector3.Dot(m, m) - Radius * Radius;
+
+            if (c > 0.0f && b > 0.0f)
+            {
+                t = 0.0f;
+            }
+
+            float discr = b * b - c;
+
+            if (discr < 0.0f)
+            {
+                t = 0.0f;
+            }
+
+            t = -b - (float)Math.Sqrt(discr);
+
+            if (t < 0.0f)
+            {
+                t = 0.0f;
+            }
+
+            q = r.Origin + r.Direction * t;
+            return q;
         }
     }
 
