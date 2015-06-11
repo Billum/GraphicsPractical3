@@ -54,6 +54,7 @@ namespace GraphicsPractical3
                         origin = o + (i * xTrans) + (j * yTrans);
                         direction = e.Position - origin;
                         direction = Vector3.Normalize(direction);
+                        Ray ray = new Ray(direction, origin);
                     }
                 }
             }
