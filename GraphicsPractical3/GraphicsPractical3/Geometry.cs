@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace GraphicsPractical3.Geometry
 {
-    class Sphere
+    public class Sphere
     {
         public Vector3 Center;
         public float Radius;
@@ -18,7 +18,7 @@ namespace GraphicsPractical3.Geometry
 
         public Vector3 Hit(Ray r)
         {
-            float t = 0;
+            float t = 0.0f;
             Vector3 q = new Vector3();
 
             Vector3 m = r.Origin - Center;
@@ -27,14 +27,14 @@ namespace GraphicsPractical3.Geometry
 
             if (c > 0.0f && b > 0.0f)
             {
-                t = 0.0f;
+                return q * 0.0f;
             }
 
             float discr = b * b - c;
 
             if (discr < 0.0f)
             {
-                t = 0.0f;
+                return q * 0.0f;
             }
 
             t = -b - (float)Math.Sqrt(discr);
@@ -44,12 +44,32 @@ namespace GraphicsPractical3.Geometry
                 t = 0.0f;
             }
 
-            q = r.Origin + r.Direction * t;
+            q = r.Origin + t * r.Direction;
             return q;
+        }
+        public Vector3 NormalOnSphere(Ray r)
+        {
+            Vector3 i = Hit(r);
+            Vector3 a = i - Center;
+
+            return Vector3.Normalize(a);
+        }
+        public Ray Reflection(Ray r)
+        {
+            Vector3 origin = Hit(r);
+            Vector3 I = r.Direction;
+            Vector3 N = NormalOnSphere(r);
+            Vector3 direction = I - 2 * Vector3.Dot(I, N) * N;
+
+            return new Ray(direction, origin);
+        }
+        public Ray Refraction(Ray r)
+        {
+
         }
     }
 
-    class Ray
+    public struct Ray
     {
         public Vector3 Direction;
         public Vector3 Origin;
@@ -58,7 +78,5 @@ namespace GraphicsPractical3.Geometry
             this.Direction = direction;
             this.Origin = origin;
         }
-    }
-
-    
+    }    
 }
