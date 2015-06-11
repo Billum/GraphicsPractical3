@@ -45,8 +45,6 @@ namespace GraphicsPractical3
                 o = o + e.Up * (0.5f * s.RealHeight);
                 Vector3 xTrans = -1 * e.Left * s.PixelSize;
                 Vector3 yTrans = -1 * e.Up * s.PixelSize;
-            public void Update(Vector3 e, Screen s)
-            {
                 for (uint i = 0; i < s.Width; i++)
                 {
                     for (uint j = 0; j < s.Height; j++)
@@ -56,9 +54,6 @@ namespace GraphicsPractical3
                         origin = o + (i * xTrans) + (j * yTrans);
                         direction = e.Position - origin;
                         direction = Vector3.Normalize(direction);
-                        // perspective view ray construction
-                        Vector3 d = new Vector3(s.Width/2, 0 /*?z=?*/, s.Height/2) - e;
-                        var r = new Ray(-d *  , e);
                     }
                 }
             }
