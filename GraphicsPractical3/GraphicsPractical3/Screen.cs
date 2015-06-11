@@ -12,22 +12,49 @@ namespace GraphicsPractical3
         {
             public int Width;
             public int Height;
+            public float PixelSize;
+            
+            public float RealWidth
+            {
+                get { return (float)Width * PixelSize; }
+            }
+
+            public float RealHeight
+            {
+                get { return (float)Height * PixelSize; }
+            }
+        }
+
+        public class Eye
+        {
+            public Vector3 Position;
+            public Vector3 Direction;
+            public Vector3 Up;
+            public Vector3 Left;
+            public float DistanceToScreen;
         }
 
         public class Engine
         {
-            public void Update(Vector3 e, Screen s)
-        {
-            for (uint i = 0; i < s.Width; i++)
+            public void Update(Eye e, Screen s)
             {
-                for (uint j = 0; j < s.Height; j++)
+                Vector3 o = e.Position + e.Direction * e.DistanceToScreen;
+                o = o + e.Left * (0.5f * s.RealWidth);
+                o = o + e.Up * (0.5f * s.RealHeight);
+                Vector3 xTrans = -1 * e.Left * s.PixelSize;
+                Vector3 yTrans = -1 * e.Up * s.PixelSize;
+                for (uint i = 0; i < s.Width; i++)
                 {
-                    // perspective view ray construction
-                    Vector3 d = new Vector3(s.Width/2, 0 /*?z=?*/, s.Height/2) - e;
-                    var r = new Ray(-d *  , e);
+                    for (uint j = 0; j < s.Height; j++)
+                    {
+                        Vector3 direction = new Vector3();
+                        Vector3 origin = new Vector3();
+                        origin = o + (i * xTrans) + (j * yTrans);
+                        direction = e.Position - origin;
+                        direction = Vector3.Normalize(direction);
+                    }
                 }
             }
-        }
         }
     }
 }
