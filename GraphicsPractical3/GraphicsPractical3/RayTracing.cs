@@ -76,7 +76,7 @@ namespace GraphicsPractical3.RayTracing
             {
                 return new Vector3 ( 0.0f, 0.0f, 0.0f );
             }
-            return DirectIllumination(r, h);
+            return h.Color * DirectIllumination(r, h);
         }
 
         private Primitive hit(Ray r, float d = 0.0f)

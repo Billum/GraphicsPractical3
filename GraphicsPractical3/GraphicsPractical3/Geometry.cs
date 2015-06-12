@@ -9,7 +9,7 @@ namespace GraphicsPractical3.Geometry
     public abstract class Primitive
     {
         public Material Material;
-        public Color Color;
+        public Vector3 Color;
         public abstract Vector3 Normal(Ray r);
         public abstract Vector3 Hit(Ray r);
         public abstract float HitDistance(Ray r);
@@ -17,7 +17,7 @@ namespace GraphicsPractical3.Geometry
 
     public class Sphere : Primitive
     {
-        public Color Color;
+        public Vector3 Color;
         public Material Material;
         public Vector3 Center;
         public float Radius;
@@ -72,7 +72,7 @@ namespace GraphicsPractical3.Geometry
     public class Triangle : Primitive
     {
         public Material Material;
-        public Color Color;
+        public Vector3 Color;
         public Vector3 A;
         public Vector3 B;
         public Vector3 C;
