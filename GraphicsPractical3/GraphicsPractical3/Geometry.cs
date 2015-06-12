@@ -30,7 +30,6 @@ namespace GraphicsPractical3.Geometry
         public override float HitDistance(Ray r)
         {
             float t = 0.0f;
-            Vector3 q = new Vector3();
 
             Vector3 m = r.Origin - Center;
             float b = Vector3.Dot(m, r.Direction);
@@ -87,8 +86,6 @@ namespace GraphicsPractical3.Geometry
 
         public override float HitDistance(Ray r) // See at pages 78-79 Fundamentals of Computer Graphics 3rd Edition
         {
-            Vector3 q = new Vector3();
-
             float a = A.X - B.X;
             float b = A.Y - B.Y;
             float c = A.Z - B.Z;
@@ -110,6 +107,11 @@ namespace GraphicsPractical3.Geometry
             float bl_kc = b * l - k * c;
 
             float M = a * ei_hf + b * gf_di + c * dh_eg;
+            float t = -1 * (f * ak_jb + e * jc_al + d * bl_kc) / M;
+            if (t < 0)
+            {
+                return 0.0f;
+            }
             
             float gamma = (i * ak_jb + h * jc_al + g * bl_kc) / M;
             if (gamma < 0 || gamma > 1)
@@ -123,9 +125,10 @@ namespace GraphicsPractical3.Geometry
                 return 0.0f;
             }
 
-            float t = -1 * (f * ak_jb + e * jc_al + d * bl_kc) / M;
             if (beta > 0 && gamma > 0 && beta + gamma < 1)
+            {
                 return t;
+            }
 
             return 0.0f;
         }
@@ -139,7 +142,7 @@ namespace GraphicsPractical3.Geometry
         {
             Vector3 a = Vector3.Cross(B - A, C - A);
 
-            return a;
+            return Vector3.Normalize(a);
         }
     }
 
