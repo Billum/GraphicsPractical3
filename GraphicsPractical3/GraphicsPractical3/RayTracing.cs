@@ -71,18 +71,25 @@ namespace GraphicsPractical3.RayTracing
 
         private Vector3 tracer(Ray r)
         {
-            hitOutput h = hit(r);
-            if (h.P == null)
+            Primitive h = hit(r);
+            if (h == null)
             {
                 return new Vector3 ( 0.0f, 0.0f, 0.0f );
             }
-            return Matt(r, h.P);
+            return DirectIllumination(r, h);
         }
 
-        private hitOutput hit(Ray r)
+        private Primitive hit(Ray r, float d = 0.0f)
         {
-            hitOutput h = new hitOutput();
-            float shortest = 0.0f;
+            float shortest;
+            if (d == 0.0f)
+            {
+                shortest = d;
+            }
+            else
+            {
+                shortest = float.MaxValue;
+            }
             Primitive thing = null;
             foreach (Primitive p in primitives)
             {
@@ -96,20 +103,8 @@ namespace GraphicsPractical3.RayTracing
                     }
                 }
             }
-            h.P = thing;
-            if (h.P != null)
-            {
-                h.R = Reflection(r, h.P);
-            }
-            return h;
+            return thing;
         }
-
-        private struct hitOutput
-        {
-            public Ray R;
-            public Primitive P;
-        }
-
 
         public Ray Reflection(Ray r, Primitive p)
         {
@@ -147,13 +142,13 @@ namespace GraphicsPractical3.RayTracing
             foreach (PointLight pL in pointLights)
             {
                 Vector3 l = pL.Point - origin;
+                float dist = l.Length();
                 Vector3 direction = Vector3.Normalize(l);
                 Ray nR = new Ray(direction, origin);
-                hitOutput h = hit(nR);
-                if (h.P == null)
+                Primitive h = hit(nR, dist);
+                if (h == null)
                 {
                     Vector3 normal = p.Normal(r);
-                    float dist = l.Length();
                     float attenuation = 1.0f / (dist * dist);
                     result = result + pL.Color * attenuation * Vector3.Dot(normal, l);
                 }
