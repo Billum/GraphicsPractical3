@@ -9,8 +9,9 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using Primitive = GraphicsPractical3.Geometry.Primitive;
+using PointLight = GraphicsPractical3.Geometry.PointLight;
 
-namespace GraphicsPractical3.Game
+namespace GraphicsPractical3
 {
     public class Game1 : Microsoft.Xna.Framework.Game
     {
@@ -26,6 +27,7 @@ namespace GraphicsPractical3.Game
         private Model model;
         private Material modelMaterial;
         private Primitive[] primitives;
+        private PointLight[] pointLights;
 
         // Quad
         private VertexPositionNormalTexture[] quadVertices;

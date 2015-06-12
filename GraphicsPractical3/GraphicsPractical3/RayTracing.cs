@@ -139,22 +139,26 @@ namespace GraphicsPractical3.RayTracing
             return new Ray(direction, origin);
         }
 
-        public Vector3 Matt(Ray r, Primitive p)
+        public Vector3 DirectIllumination(Ray r, Primitive p)
         {
             Vector3 origin = p.Hit(r);
             float nOfLights = (float)pointLights.Length;
             Vector3 result = new Vector3(0.0f, 0.0f, 0.0f);
             foreach (PointLight pL in pointLights)
             {
-                Vector3 direction = Vector3.Normalize(pL.Point - origin);
+                Vector3 l = pL.Point - origin;
+                Vector3 direction = Vector3.Normalize(l);
                 Ray nR = new Ray(direction, origin);
                 hitOutput h = hit(nR);
                 if (h.P == null)
                 {
-                    result = result + pL.Color;
+                    Vector3 normal = p.Normal(r);
+                    float dist = l.Length();
+                    float attenuation = 1.0f / (dist * dist);
+                    result = result + pL.Color * attenuation * Vector3.Dot(normal, l);
                 }
             }
-            return result / nOfLights;
+            return result;
         }
     }
 }
