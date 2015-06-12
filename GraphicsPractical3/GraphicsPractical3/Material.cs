@@ -58,31 +58,5 @@ namespace GraphicsPractical3
             effect.Parameters["HasTexture"].SetValue(this.DiffuseTexture != null);
             //effect.Parameters["HasNormalMap"].SetValue(this.NormalMap != null);
         }
-        public Ray Reflection(Ray r, Primitive p)
-        {
-            Vector3 origin = p.Hit(r);
-            Vector3 I = r.Direction;
-            Vector3 N = p.Normal(r);
-            float cos_i = -1 * Vector3.Dot(I, N);
-
-            Vector3 direction = I - 2 * cos_i * N;
-
-            return new Ray(direction, origin);
-        }
-        public Ray Refraction(Ray r, Primitive p, float n1, float n2)
-        {
-            float refrac = n1 / n2;
-            Vector3 origin = p.Hit(r);
-            Vector3 I = r.Direction;
-            Vector3 N = p.Normal(r);
-
-            float cos_i = Vector3.Dot(I, N) / (N.Length() * I.Length());
-            Vector3 T = n1 / n2 * (I + cos_i * N);
-            float U = (float)Math.Sqrt(1 - T.Length() * T.Length());
-
-            Vector3 direction = refrac * I + (refrac * cos_i - U) * N;
-
-            return new Ray(direction, origin);
-        }
     }
 }

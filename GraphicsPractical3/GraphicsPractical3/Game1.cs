@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using Primitive = GraphicsPractical3.Geometry.Primitive;
 
-namespace GraphicsPractical3
+namespace GraphicsPractical3.Game
 {
     public class Game1 : Microsoft.Xna.Framework.Game
     {

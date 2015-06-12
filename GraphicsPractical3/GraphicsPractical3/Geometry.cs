@@ -12,7 +12,9 @@ namespace GraphicsPractical3.Geometry
         public Color Color;
         public abstract Vector3 Normal(Ray r);
         public abstract Vector3 Hit(Ray r);
+        public abstract float HitDistance(Ray r);
     }
+
     public class Sphere : Primitive
     {
         public Color Color;
@@ -25,7 +27,7 @@ namespace GraphicsPractical3.Geometry
             this.Radius = Radius;
         }
 
-        public override Vector3 Hit(Ray r)
+        public override float HitDistance(Ray r)
         {
             float t = 0.0f;
             Vector3 q = new Vector3();
@@ -36,14 +38,14 @@ namespace GraphicsPractical3.Geometry
 
             if (c > 0.0f && b > 0.0f)
             {
-                return q * 0.0f;
+                return  0.0f;
             }
 
             float discr = b * b - c;
 
             if (discr < 0.0f)
             {
-                return q * 0.0f;
+                return 0.0f;
             }
 
             t = -b - (float)Math.Sqrt(discr);
@@ -52,10 +54,14 @@ namespace GraphicsPractical3.Geometry
             {
                 t = 0.0f;
             }
-
-            q = r.Origin + t * r.Direction;
-            return q;
+            return t;
         }
+
+        public override Vector3 Hit(Ray r)
+        {
+            return r.Origin + this.HitDistance(r) * r.Direction;
+        }
+
         public override Vector3 Normal(Ray r)
         {
             Vector3 i = Hit(r);
@@ -71,13 +77,15 @@ namespace GraphicsPractical3.Geometry
         public Vector3 A;
         public Vector3 B;
         public Vector3 C;
+
         public Triangle(Vector3 a, Vector3 b, Vector3 c)
         {
             this.A = a;
             this.B = b;
             this.C = c;
         }
-        public override Vector3 Hit(Ray r) // See at pages 78-79 Fundamentals of Computer Graphics 3rd Edition
+
+        public override float HitDistance(Ray r) // See at pages 78-79 Fundamentals of Computer Graphics 3rd Edition
         {
             Vector3 q = new Vector3();
 
@@ -106,21 +114,27 @@ namespace GraphicsPractical3.Geometry
             float gamma = (i * ak_jb + h * jc_al + g * bl_kc) / M;
             if (gamma < 0 || gamma > 1)
             {
-                return q * 0.0f;
+                return 0.0f;
             }
 
             float beta = (j * ei_hf + k * gf_di + l * dh_eg) / M;
             if (beta < 0 || beta > 1 - gamma)
             {
-                return q * 0.0f;
+                return 0.0f;
             }
 
             float t = -1 * (f * ak_jb + e * jc_al + d * bl_kc) / M;
-            if (beta > 0 && gamma > 0 && beta + gamma < 1) 
-                q = r.Origin + t * r.Direction;
+            if (beta > 0 && gamma > 0 && beta + gamma < 1)
+                return t;
 
-            return q;
+            return 0.0f;
         }
+
+        public override Vector3 Hit(Ray r)
+        {
+            return r.Origin + this.HitDistance(r) * r.Direction;
+        }
+
         public override Vector3 Normal(Ray r)
         {
             Vector3 a = Vector3.Cross(B - A, C - A);
