@@ -5,6 +5,8 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Ray = GraphicsPractical3.Geometry.Ray;
 using Primitive = GraphicsPractical3.Geometry.Primitive;
+using PointLight = GraphicsPractical3.Geometry.PointLight;
+
 
 namespace GraphicsPractical3.RayTracing
 {
@@ -37,10 +39,12 @@ namespace GraphicsPractical3.RayTracing
     public class Engine
     {
         private Primitive[] primitives;
+        private PointLight[] pointLights;
 
-        public Engine(Primitive[] p)
+        public Engine(Primitive[] p, PointLight[] pL)
         {
             primitives = p;
+            pointLights = pL;
         }
 
         public void Update(Eye e, Screen s)
@@ -60,26 +64,19 @@ namespace GraphicsPractical3.RayTracing
                     direction = e.Position - origin;
                     direction = Vector3.Normalize(direction);
                     Ray ray = new Ray(direction, origin);
-                    Vector3 colour = tracer(ray, 4);
+                    Vector3 colour = tracer(ray);
                 }
             }
         }
 
-        private Vector3 tracer(Ray r, int n)
+        private Vector3 tracer(Ray r)
         {
             hitOutput h = hit(r);
             if (h.P == null)
             {
                 return new Vector3 ( 0.0f, 0.0f, 0.0f );
             }
-            else if (n == 0)
-            {
-                return new Vector3(0.0f, 0.0f, 0.0f);
-            }
-            else
-            {
-                return tracer(r, n - 1);
-            }
+            return Matt(r, h.P);
         }
 
         private hitOutput hit(Ray r)
@@ -140,6 +137,24 @@ namespace GraphicsPractical3.RayTracing
             Vector3 direction = refrac * I + (refrac * cos_i - U) * N;
 
             return new Ray(direction, origin);
+        }
+
+        public Vector3 Matt(Ray r, Primitive p)
+        {
+            Vector3 origin = p.Hit(r);
+            float nOfLights = (float)pointLights.Length;
+            Vector3 result = new Vector3(0.0f, 0.0f, 0.0f);
+            foreach (PointLight pL in pointLights)
+            {
+                Vector3 direction = Vector3.Normalize(pL.Point - origin);
+                Ray nR = new Ray(direction, origin);
+                hitOutput h = hit(nR);
+                if (h.P == null)
+                {
+                    result = result + pL.Color;
+                }
+            }
+            return result / nOfLights;
         }
     }
 }

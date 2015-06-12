@@ -142,6 +142,7 @@ namespace GraphicsPractical3.Geometry
             return a;
         }
     }
+
     public struct Ray
     {
         public Vector3 Direction;
@@ -151,5 +152,11 @@ namespace GraphicsPractical3.Geometry
             this.Direction = direction;
             this.Origin = origin;
         }
+    }
+
+    public struct PointLight
+    {
+        public Vector3 Point;
+        public Vector3 Color;
     }
 }
