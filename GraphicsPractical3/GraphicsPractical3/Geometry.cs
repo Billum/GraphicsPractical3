@@ -47,12 +47,13 @@ namespace GraphicsPractical3.Geometry
                 return 0.0f;
             }
 
-            t = -b - (float)Math.Sqrt(discr);
+            t = Math.Min(-b - (float)Math.Sqrt(discr), -b + (float)Math.Sqrt(discr));
 
             if (t < 0.0f)
             {
                 t = 0.0f;
             }
+
             return t;
         }
 

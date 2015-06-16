@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using Triangle = GraphicsPractical3.Geometry.Triangle;
 using Sphere = GraphicsPractical3.Geometry.Sphere;
 using Light = GraphicsPractical3.Geometry.PointLight;
 using Primitive = GraphicsPractical3.Geometry.Primitive;
@@ -68,12 +69,20 @@ namespace GraphicsPractical3
             this.eye = new Eye(new Vector3(0, 1, 0), new Vector3(0, 0, 1), 1f);
             this.screen = new Screen(640, 480, 0.001f);
             this.pointLights = new PointLight[1];
-            this.primitives = new Primitive[1];
+            this.primitives = new Primitive[2];
             this.texture = new Texture2D(GraphicsDevice, 640, 480);
 
             this.primitives[0] = new Sphere(new Vector3(-1, 1, -10), 1f);
             this.primitives[0].Color = new Vector3(1f, 0f, 0f);
+<<<<<<< HEAD
             this.pointLights[0] = new Light(new Vector3(15, 1, -30), new Vector3(100, 100, 100));
+=======
+
+            this.primitives[1] = new Triangle(new Vector3(-1, -1, -10), new Vector3(-1, 1, -5), new Vector3(-1, 3, -10));
+            this.primitives[1].Color = new Vector3(0f, 0f, 1f);
+
+            this.pointLights[0] = new Light(new Vector3(10, 10, 1), new Vector3(1, 1, 1));
+>>>>>>> 029fda3de32127d1768f6e393335e413fc12d94e
 
             this.engine = new Engine(primitives, pointLights);
 
@@ -94,7 +103,7 @@ namespace GraphicsPractical3
             float timeStep = (float)gameTime.ElapsedGameTime.TotalSeconds * 60.0f;
 
             // Update the window title
-            this.Window.Title = "XNA Renderer | FPS: " + this.frameRateCounter.FrameRate;
+            this.Window.Title = "Ray Tracer | FPS: " + this.frameRateCounter.FrameRate;
 
             base.Update(gameTime);
         }
