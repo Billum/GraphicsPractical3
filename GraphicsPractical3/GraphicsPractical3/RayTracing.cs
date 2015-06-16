@@ -95,7 +95,7 @@ namespace GraphicsPractical3.RayTracing
             if ((h = hit(r)) != null)
             {
                 //System.Diagnostics.Debugger.Break();
-                return h.Color;// *DirectIllumination(r, h);
+                return DirectIllumination(r, h);
             }
             else
                 // No hit, black background
@@ -166,6 +166,8 @@ namespace GraphicsPractical3.RayTracing
                     Vector3 normal = p.Normal(r);
                     float attenuation = 1.0f / (dist * dist);
                     result = result + pL.Color * attenuation * Vector3.Dot(normal, l);
+                    result = new Vector3(Math.Abs(result.X), Math.Abs(result.Y), Math.Abs(result.Z));
+                    //result = new Vector3(1, 1, 1);
                 }
             }
             return result;
