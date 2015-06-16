@@ -91,25 +91,20 @@ namespace GraphicsPractical3.RayTracing
 
         private Vector3 tracer(Ray r)
         {
-            Primitive h = hit(r);
-            if (h == null)
+            Primitive h;
+            if ((h = hit(r)) != null)
             {
-                return new Vector3 ( 0.0f, 0.0f, 0.0f );
-            }
-            return h.Color * DirectIllumination(r, h);
-        }
-
-        private Primitive hit(Ray r, float d = 0.0f)
-        {
-            float shortest;
-            if (d == 0.0f)
-            {
-                shortest = d;
+                //System.Diagnostics.Debugger.Break();
+                return h.Color;// *DirectIllumination(r, h);
             }
             else
-            {
-                shortest = float.MaxValue;
-            }
+                // No hit, black background
+                return new Vector3 (0f, 0f, 0f);
+        }
+
+        private Primitive hit(Ray r, float d = float.MaxValue)
+        {
+            float shortest = d;
             Primitive thing = null;
             foreach (Primitive p in primitives)
             {

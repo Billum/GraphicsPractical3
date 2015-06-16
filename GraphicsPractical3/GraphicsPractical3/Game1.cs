@@ -65,13 +65,14 @@ namespace GraphicsPractical3
             /* Initialize Ray Tracer */
 
             this.pixels = new Color[307200];
-            this.eye = new Eye(new Vector3(0, 1, 0), new Vector3(0, 1, 0), 1f);
+            this.eye = new Eye(new Vector3(0, 1, 0), new Vector3(0, 0, 1), 1f);
             this.screen = new Screen(640, 480, 0.001f);
             this.pointLights = new PointLight[1];
             this.primitives = new Primitive[1];
             this.texture = new Texture2D(GraphicsDevice, 640, 480);
 
-            this.primitives[0] = new Sphere(new Vector3(-1, 1, 0), 1f);
+            this.primitives[0] = new Sphere(new Vector3(-1, 1, -10), 1f);
+            this.primitives[0].Color = new Vector3(1f, 0f, 0f);
             this.pointLights[0] = new Light(new Vector3(10, 10, 1), new Vector3(1, 1, 1));
 
             this.engine = new Engine(primitives, pointLights);
