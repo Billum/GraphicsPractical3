@@ -192,5 +192,11 @@ namespace GraphicsPractical3.Geometry
     {
         public Vector3 Point;
         public Vector3 Color;
+
+        public PointLight(Vector3 point, Vector3 color)
+        {
+            Point = point;
+            Color = color;
+        }
     }
 }

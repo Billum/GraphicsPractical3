@@ -8,6 +8,8 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using Sphere = GraphicsPractical3.Geometry.Sphere;
+using Light = GraphicsPractical3.Geometry.PointLight;
 using Primitive = GraphicsPractical3.Geometry.Primitive;
 using PointLight = GraphicsPractical3.Geometry.PointLight;
 using Engine = GraphicsPractical3.RayTracing.Engine;
@@ -56,8 +58,8 @@ namespace GraphicsPractical3
             // Copy over the device's rasterizer state to change the current fillMode
             this.GraphicsDevice.RasterizerState = new RasterizerState() { CullMode = CullMode.None };
             // Set up the window
-            this.graphics.PreferredBackBufferWidth = 800;
-            this.graphics.PreferredBackBufferHeight = 600;
+            this.graphics.PreferredBackBufferWidth = 640;
+            this.graphics.PreferredBackBufferHeight = 480;
             this.graphics.IsFullScreen = false;
             // Let the renderer draw and update as often as possible
             this.graphics.SynchronizeWithVerticalRetrace = false;
@@ -70,8 +72,14 @@ namespace GraphicsPractical3
             this.pixels = new Color[307200];
             this.eye = new Eye(new Vector3(3, 1, 0), new Vector3(-1, 0, 0), 1f);
             this.screen = new Screen(640, 480, 0.001f);
-            this.engine = new Engine(primitives, pointLights);
+            this.pointLights = new PointLight[1];
+            this.primitives = new Primitive[1];
+            this.texture = new Texture2D(GraphicsDevice, 640, 480);
 
+            this.primitives[0] = new Sphere(new Vector3(-1, 1, 0), 1f);
+            this.pointLights[0] = new Light(new Vector3(10, 10, 1), new Vector3(1, 1, 1));
+
+            this.engine = new Engine(primitives, pointLights);
 
             // Initialize material properties
             this.modelMaterial = new Material();
@@ -155,6 +163,7 @@ namespace GraphicsPractical3
             texture.SetData(pixels);
             spriteBatch.Begin();
             spriteBatch.Draw(texture, Vector2.Zero, Color.Azure);
+            spriteBatch.End();
             base.Draw(gameTime);
         }
     }
