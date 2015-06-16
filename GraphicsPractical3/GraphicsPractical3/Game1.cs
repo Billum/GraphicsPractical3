@@ -97,12 +97,19 @@ namespace GraphicsPractical3
         protected override void Draw(GameTime gameTime)
         {
             // Clear the screen in a predetermined color and clear the depth buffer
+            // Also unset the texture buffer on the Grahpics Device for now
             this.GraphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, Color.White, 1.0f, 0);
+            this.GraphicsDevice.Textures[0] = null;
+
+            // Load texture
             pixels = engine.Update(eye, screen);
             texture.SetData(pixels);
+            this.GraphicsDevice.Textures[0] = texture; // Load texture here! (necessary?)
+            
             spriteBatch.Begin();
             spriteBatch.Draw(texture, Vector2.Zero, Color.Azure);
             spriteBatch.End();
+
             base.Draw(gameTime);
         }
     }
