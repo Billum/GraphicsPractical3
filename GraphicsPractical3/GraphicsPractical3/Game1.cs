@@ -48,6 +48,8 @@ namespace GraphicsPractical3
 
         protected override void Initialize()
         {
+            /* Initialize Graphics Device */
+
             // Copy over the device's rasterizer state to change the current fillMode
             this.GraphicsDevice.RasterizerState = new RasterizerState() { CullMode = CullMode.None };
             // Set up the window
@@ -59,11 +61,11 @@ namespace GraphicsPractical3
             this.IsFixedTimeStep = false;
             // Flush the changes to the device parameters to the graphics card
             this.graphics.ApplyChanges();
-            // Initialize the camera
-            this.camera = new Camera(new Vector3(0, 50, 100), new Vector3(0, 0, 0), new Vector3(0, 1, 0));
+
+            /* Initialize Ray Tracer */
 
             this.pixels = new Color[307200];
-            this.eye = new Eye(new Vector3(3, 1, 0), new Vector3(-1, 0, 0), 1f);
+            this.eye = new Eye(new Vector3(0, 1, 0), new Vector3(0, 1, 0), 1f);
             this.screen = new Screen(640, 480, 0.001f);
             this.pointLights = new PointLight[1];
             this.primitives = new Primitive[1];
@@ -73,6 +75,8 @@ namespace GraphicsPractical3
             this.pointLights[0] = new Light(new Vector3(10, 10, 1), new Vector3(1, 1, 1));
 
             this.engine = new Engine(primitives, pointLights);
+
+            /* Misc */
 
             this.IsMouseVisible = true;
             base.Initialize();
@@ -101,11 +105,12 @@ namespace GraphicsPractical3
             this.GraphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, Color.White, 1.0f, 0);
             this.GraphicsDevice.Textures[0] = null;
 
-            // Load texture
+            // Load texture and draw texture, the texture is the 2D output of the
+            // ray tracer!
+            //
             pixels = engine.Update(eye, screen);
             texture.SetData(pixels);
             this.GraphicsDevice.Textures[0] = texture; // Load texture here! (necessary?)
-            
             spriteBatch.Begin();
             spriteBatch.Draw(texture, Vector2.Zero, Color.Azure);
             spriteBatch.End();
