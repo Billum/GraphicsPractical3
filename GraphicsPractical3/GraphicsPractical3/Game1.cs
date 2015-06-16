@@ -34,15 +34,8 @@ namespace GraphicsPractical3
         private Engine engine;
 
         // Model
-        private Model model;
-        private Material modelMaterial;
         private Primitive[] primitives;
         private PointLight[] pointLights;
-
-        // Quad
-        private VertexPositionNormalTexture[] quadVertices;
-        private short[] quadIndices;
-        private Matrix quadTransform;
 
         public Game1()
         {
@@ -81,21 +74,7 @@ namespace GraphicsPractical3
 
             this.engine = new Engine(primitives, pointLights);
 
-            // Initialize material properties
-            this.modelMaterial = new Material();
-            modelMaterial.AmbientColor = Color.Gold;
-            modelMaterial.AmbientIntensity = 0.2f;
-            modelMaterial.DiffuseColor = Color.Gold;
-            modelMaterial.DiffuseTexture = this.Content.Load<Texture>("Textures/CobblestonesDiffuse");
-            modelMaterial.SpecularColor = Color.White;
-            modelMaterial.SpecularIntensity = 2f;
-            modelMaterial.SpecularPower = 25f;
-
-            modelMaterial.NormalColoring = false;       // Set to true to use normal coloring!
-            modelMaterial.ProceduralColoring = false;   // Set to true to get the checkerboard pattern
-
             this.IsMouseVisible = true;
-
             base.Initialize();
         }
 
@@ -103,46 +82,6 @@ namespace GraphicsPractical3
         {
             // Create a SpriteBatch object
             this.spriteBatch = new SpriteBatch(this.GraphicsDevice);
-            // Load the "Simple" effect
-            Effect effect = this.Content.Load<Effect>("Effects/Simple");
-            // Load the model and let it use the "Simple" effect
-            this.model = this.Content.Load<Model>("Models/femalehead");
-            this.model.Meshes[0].MeshParts[0].Effect = effect;
-            // Setup the quad
-            this.setupQuad();
-        }
-
-        /// <summary>
-        /// Sets up a 2 by 2 quad around the origin.
-        /// </summary>
-        private void setupQuad()
-        {
-            float scale = 50.0f;
-            float height = -1.5f;
-
-            // Normal points up
-            Vector3 quadNormal = new Vector3(0, 1, 0);
-
-            this.quadVertices = new VertexPositionNormalTexture[4];
-            // Top left
-            this.quadVertices[0].Position = new Vector3(-6, height, -7);
-            this.quadVertices[0].Normal = quadNormal;
-            this.quadVertices[0].TextureCoordinate = new Vector2(-1, -1);
-            // Top right
-            this.quadVertices[1].Position = new Vector3(6, height, -7);
-            this.quadVertices[1].Normal = quadNormal;
-            this.quadVertices[1].TextureCoordinate = new Vector2(1, -1);
-            // Bottom left
-            this.quadVertices[2].Position = new Vector3(-6, height, 5);
-            this.quadVertices[2].Normal = quadNormal;
-            this.quadVertices[2].TextureCoordinate = new Vector2(-1, 1);
-            // Bottom right
-            this.quadVertices[3].Position = new Vector3(6, height, 5);
-            this.quadVertices[3].Normal = quadNormal;
-            this.quadVertices[3].TextureCoordinate = new Vector2(1, 1);
-
-            this.quadIndices = new short[] { 0, 1, 2, 1, 2, 3 };
-            this.quadTransform = Matrix.CreateScale(scale);
         }
 
         protected override void Update(GameTime gameTime)
