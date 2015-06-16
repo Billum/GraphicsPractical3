@@ -10,6 +10,9 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using Primitive = GraphicsPractical3.Geometry.Primitive;
 using PointLight = GraphicsPractical3.Geometry.PointLight;
+using Engine = GraphicsPractical3.RayTracing.Engine;
+using Eye = GraphicsPractical3.RayTracing.Eye;
+using Screen = GraphicsPractical3.RayTracing.Screen;
 
 namespace GraphicsPractical3
 {
@@ -19,9 +22,14 @@ namespace GraphicsPractical3
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
         private FrameRateCounter frameRateCounter;
+        private Texture2D texture;
+        private Color[] pixels;
 
         // Game objects and variables
         private Camera camera;
+        private Screen screen;
+        private Eye eye;
+        private Engine engine;
 
         // Model
         private Model model;
@@ -58,6 +66,12 @@ namespace GraphicsPractical3
             this.graphics.ApplyChanges();
             // Initialize the camera
             this.camera = new Camera(new Vector3(0, 50, 100), new Vector3(0, 0, 0), new Vector3(0, 1, 0));
+
+            this.pixels = new Color[307200];
+            this.eye = new Eye(new Vector3(3, 1, 0), new Vector3(-1, 0, 0), 1f);
+            this.screen = new Screen(640, 480, 0.001f);
+            this.engine = new Engine(primitives, pointLights);
+
 
             // Initialize material properties
             this.modelMaterial = new Material();
@@ -137,43 +151,10 @@ namespace GraphicsPractical3
         {
             // Clear the screen in a predetermined color and clear the depth buffer
             this.GraphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, Color.White, 1.0f, 0);
-
-            // Get the model's only mesh
-            ModelMesh mesh = this.model.Meshes[0];
-            Effect effect = mesh.Effects[0];
-
-            effect.CurrentTechnique = effect.Techniques["Surface"];
-
-            // Draw the index/vertices from the surface texture
-            // , the texture itself will be applied in the shader
-            foreach (EffectPass pass in effect.CurrentTechnique.Passes)
-            {
-                pass.Apply();
-
-                this.GraphicsDevice.DrawUserIndexedPrimitives(
-                    PrimitiveType.TriangleList,
-                    quadVertices,
-                    0,
-                    quadVertices.Length,
-                    quadIndices,
-                    0,
-                    quadIndices.Length / 3);
-            }
-
-            // Set the effect parameters
-            effect.CurrentTechnique = effect.Techniques["Simple"];
-
-            // Matrices for 3D perspective projection
-            this.camera.SetEffectParameters(effect);
-            this.modelMaterial.SetEffectParameters(effect);
-            effect.Parameters["World"].SetValue(Matrix.CreateScale(1.5f));
-            effect.Parameters["WorldInverseTranspose"].SetValue(Matrix.CreateScale(10.0f));
-            effect.Parameters["LightSourcePosition"].SetValue(new Vector3(50, 20, 50));
-            effect.Parameters["Camera"].SetValue(camera.Eye);
-
-            // Draw the model
-            mesh.Draw();
-
+            pixels = engine.Update(eye, screen);
+            texture.SetData(pixels);
+            spriteBatch.Begin();
+            spriteBatch.Draw(texture, Vector2.Zero, Color.Azure);
             base.Draw(gameTime);
         }
     }

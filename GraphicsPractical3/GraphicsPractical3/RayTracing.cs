@@ -25,6 +25,13 @@ namespace GraphicsPractical3.RayTracing
         {
             get { return (float)Height * PixelSize; }
         }
+
+        public Screen(int width, int height, float pixelSize)
+        {
+            Width = width;
+            Height = height;
+            PixelSize = pixelSize;
+        }
     }
 
     public class Eye
@@ -32,8 +39,18 @@ namespace GraphicsPractical3.RayTracing
         public Vector3 Position;
         public Vector3 Direction;
         public Vector3 Up;
-        public Vector3 Left;
+        public Vector3 Right;
         public float DistanceToScreen;
+
+        public Eye(Vector3 position, Vector3 direction, float distance)
+        {
+            DistanceToScreen = distance;
+            Position = position;
+            Direction = -1 * Vector3.Normalize(direction);
+            Up = new Vector3(0, 1, 0);
+            Right = Vector3.Normalize(Vector3.Cross(Up, Direction));
+            Up = Vector3.Cross(Right, Direction);
+        }
     }
 
     public class Engine
@@ -47,12 +64,13 @@ namespace GraphicsPractical3.RayTracing
             pointLights = pL;
         }
 
-        public void Update(Eye e, Screen s)
+        public Color[] Update(Eye e, Screen s)
         {
-            Vector3 o = e.Position + e.Direction * e.DistanceToScreen;
-            o = o + e.Left * (0.5f * s.RealWidth);
+            Color[] result = new Color[307200];
+            Vector3 o = e.Position + ( -1 * e.Direction ) * e.DistanceToScreen;
+            o = o - e.Right * (0.5f * s.RealWidth);
             o = o + e.Up * (0.5f * s.RealHeight);
-            Vector3 xTrans = -1 * e.Left * s.PixelSize;
+            Vector3 xTrans = 1 * e.Right * s.PixelSize;
             Vector3 yTrans = -1 * e.Up * s.PixelSize;
             for (uint i = 0; i < s.Width; i++)
             {
@@ -65,8 +83,10 @@ namespace GraphicsPractical3.RayTracing
                     direction = Vector3.Normalize(direction);
                     Ray ray = new Ray(direction, origin);
                     Vector3 colour = tracer(ray);
+                    result[j * s.Width + i] = new Color(colour);
                 }
             }
+            return result;
         }
 
         private Vector3 tracer(Ray r)
