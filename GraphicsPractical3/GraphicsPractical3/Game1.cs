@@ -74,15 +74,11 @@ namespace GraphicsPractical3
 
             this.primitives[0] = new Sphere(new Vector3(-1, 1, -10), 1f);
             this.primitives[0].Color = new Vector3(1f, 0f, 0f);
-<<<<<<< HEAD
-            this.pointLights[0] = new Light(new Vector3(15, 1, -30), new Vector3(100, 100, 100));
-=======
 
             this.primitives[1] = new Triangle(new Vector3(-1, -1, -10), new Vector3(-1, 1, -5), new Vector3(-1, 3, -10));
             this.primitives[1].Color = new Vector3(0f, 0f, 1f);
 
-            this.pointLights[0] = new Light(new Vector3(10, 10, 1), new Vector3(1, 1, 1));
->>>>>>> 029fda3de32127d1768f6e393335e413fc12d94e
+            this.pointLights[0] = new Light(new Vector3(15, 1, -30), new Vector3(100, 100, 100));
 
             this.engine = new Engine(primitives, pointLights);
 

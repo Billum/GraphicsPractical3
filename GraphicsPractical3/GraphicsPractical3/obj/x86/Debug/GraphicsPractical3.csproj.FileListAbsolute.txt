@@ -40,3 +40,11 @@ C:\Users\Tomas\Documents\Visual Studio 2013\Projects\GraphicsPractical3\Graphics
 \\psf\Home\Documents\GraphicsPractical3\GraphicsPractical3\GraphicsPractical3\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
 \\psf\Home\Documents\GraphicsPractical3\GraphicsPractical3\GraphicsPractical3\obj\x86\Debug\GraphicsPractical3.exe
 \\psf\Home\Documents\GraphicsPractical3\GraphicsPractical3\GraphicsPractical3\obj\x86\Debug\GraphicsPractical3.pdb
+\\psf\Home\Desktop\CS\Graphics\p3\GraphicsPractical3\GraphicsPractical3\bin\x86\Debug\bunny.xnb
+\\psf\Home\Desktop\CS\Graphics\p3\GraphicsPractical3\GraphicsPractical3\bin\x86\Debug\femalehead.xnb
+\\psf\Home\Desktop\CS\Graphics\p3\GraphicsPractical3\GraphicsPractical3\bin\x86\Debug\Teapot.xnb
+\\psf\Home\Desktop\CS\Graphics\p3\GraphicsPractical3\GraphicsPractical3\bin\x86\Debug\Simple.xnb
+\\psf\Home\Desktop\CS\Graphics\p3\GraphicsPractical3\GraphicsPractical3\bin\x86\Debug\CobblestonesNormal.xnb
+\\psf\Home\Desktop\CS\Graphics\p3\GraphicsPractical3\GraphicsPractical3\bin\x86\Debug\CobblestonesDiffuse.xnb
+\\psf\Home\Desktop\CS\Graphics\p3\GraphicsPractical3\GraphicsPractical3\bin\x86\Debug\uffizi_cross.xnb
+\\psf\Home\Desktop\CS\Graphics\p3\GraphicsPractical3\GraphicsPractical3\bin\x86\Debug\uffizi_diff_cross.xnb
