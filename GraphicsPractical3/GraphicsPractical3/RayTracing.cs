@@ -117,7 +117,10 @@ namespace GraphicsPractical3.RayTracing
             Primitive h;
             if ((h = hit(r)) != null)
             {
-                
+                if (h.Material.Reflective == true)
+                {
+                    return tracer(Reflection(r, h));
+                }
                 //System.Diagnostics.Debugger.Break();
                 return DirectIllumination(r, h);
             }
