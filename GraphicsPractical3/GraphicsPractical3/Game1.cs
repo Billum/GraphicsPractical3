@@ -63,23 +63,29 @@ namespace GraphicsPractical3
             // Flush the changes to the device parameters to the graphics card
             this.graphics.ApplyChanges();
 
-            /* Initialize Ray Tracer */
+            // Initialize Ray Tracer 
 
             this.pixels = new Color[307200];
-            this.eye = new Eye(new Vector3(0, 0, 0), new Vector3(0, 0, 1), 1f);
+            this.eye = new Eye(new Vector3(0, 0, 0), new Vector3(0, 0, 1), 0.5f);
             this.screen = new Screen(640, 480, 0.001f);
-            this.pointLights = new PointLight[2];
-            this.primitives = new Primitive[2];
             this.texture = new Texture2D(GraphicsDevice, 640, 480);
 
-            this.primitives[0] = new Sphere(new Vector3(0, 0, 10), 1f);
+            // Initialize Models
+
+            this.pointLights = new PointLight[2];
+            this.primitives = new Primitive[2];
+
+            this.primitives[0] = new Sphere(new Vector3(0, 0, 8), 1f);
             this.primitives[0].Color = new Vector3(1f, 0f, 0f);
 
-            this.primitives[1] = new Triangle(new Vector3(-3, -3, 12), new Vector3(-3, 3, 12), new Vector3(3, 3, 12));
-            this.primitives[1].Color = new Vector3(0f, 0f, 1f);
+            this.primitives[1] = new Sphere(new Vector3(-3, -2, 16), 5f);
+            this.primitives[1].Color = new Vector3(1f, 0f, 0f);
 
-            this.pointLights[1] = new Light(new Vector3(0, -20, 0), new Vector3(20, 20, 20));
-            this.pointLights[0] = new Light(new Vector3(20, 0, 0), new Vector3(0, 0, 0));
+            //this.primitives[1] = new Triangle(new Vector3(0, -9, 12), new Vector3(-6, 3, 12), new Vector3(6, 3, 12));
+            //this.primitives[1].Color = new Vector3(0f, 0f, 1f);
+
+            this.pointLights[1] = new Light(new Vector3(20, 0, -30), new Vector3(30, 30, 30));
+            this.pointLights[0] = new Light(new Vector3(0, 0, 13), new Vector3(0, 0, 0));
 
             this.engine = new Engine(primitives, pointLights);
 

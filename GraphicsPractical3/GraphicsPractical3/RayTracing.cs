@@ -64,8 +64,16 @@ namespace GraphicsPractical3.RayTracing
             pointLights = pL;
         }
 
-        public Color[] Update(Eye e, Screen s)
+        public Color[] Update(Eye e, Screen s, Primitive[] p = null, PointLight[] pL = null)
         {
+            if (p != null)
+            {
+                primitives = p;
+            }
+            if (pL != null)
+            {
+                pointLights = pL;
+            }
             Color[] result = new Color[307200];
             Vector3 o = e.Position + ( -1 * e.Direction ) * e.DistanceToScreen;
             o = o - e.Right * (0.5f * s.RealWidth);
