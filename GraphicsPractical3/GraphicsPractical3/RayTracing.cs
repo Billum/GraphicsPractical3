@@ -66,6 +66,14 @@ namespace GraphicsPractical3.RayTracing
             Right = Vector3.Normalize(Vector3.Cross(Up, Direction));
             Up = Vector3.Cross(Right, Direction);
         }
+        public void UpdateDirection(float rotate)
+        {
+            Matrix matrix = Matrix.CreateRotationY(rotate);
+
+            Position = Vector3.Transform(Position, matrix);
+            Direction = Vector3.Transform(Direction, matrix);
+            Up = Vector3.Transform(Up, matrix);
+        }
     }
 
     public class Engine

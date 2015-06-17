@@ -67,7 +67,7 @@ namespace GraphicsPractical3
 
             /* Initialize Ray Tracer */
 
-            this.eye = new Eye(new Vector3(0, 0, 0), new Vector3(0, 0, 1), 1f);
+            this.eye = new Eye(new Vector3(0, 0, 0), new Vector3(0, 0, 1), 0.5f);
             this.pixels = new Color[screen.Height * screen.Width];
             this.texture = new Texture2D(GraphicsDevice, screen.Width, screen.Height);
             Models m = new Models();
@@ -91,6 +91,21 @@ namespace GraphicsPractical3
             float timeStep = (float)gameTime.ElapsedGameTime.TotalSeconds * 60.0f;
             // Update the window title
             this.Window.Title = "Ray Tracer | FPS: " + this.frameRateCounter.FrameRate;
+
+            KeyboardState keyState = Keyboard.GetState();
+
+            if (keyState.IsKeyDown(Keys.Escape))
+            {
+                Exit();
+            }
+            if (keyState.IsKeyDown(Keys.Left))
+            {
+                eye.UpdateDirection(MathHelper.ToRadians(90));
+            }
+            if (keyState.IsKeyDown(Keys.Right))
+            {
+                eye.UpdateDirection(MathHelper.ToRadians(90));
+            }
 
             base.Update(gameTime);
         }

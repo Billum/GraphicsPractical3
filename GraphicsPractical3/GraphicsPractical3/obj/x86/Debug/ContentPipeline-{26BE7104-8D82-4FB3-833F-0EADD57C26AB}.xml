@@ -7,11 +7,11 @@
       <Importer>FbxImporter</Importer>
       <Processor>ModelProcessor</Processor>
       <Options>None</Options>
-      <Output>\\psf\Home\Desktop\CS\Graphics\p3\GraphicsPractical3\GraphicsPractical3\bin\x86\Debug\Content\Models\bunny.xnb</Output>
-      <Time>2015-06-17T11:05:50+02:00</Time>
+      <Output>C:\Users\Tomas\Documents\Visual Studio 2013\Projects\GraphicsPractical3\GraphicsPractical3\GraphicsPractical3\bin\x86\Debug\Content\Models\bunny.xnb</Output>
+      <Time>2015-06-17T11:30:03.8022309+02:00</Time>
       <Dependency>
-        <Key>\\psf\Home\Desktop\CS\Graphics\p3\GraphicsPractical3\GraphicsPractical3\obj\x86\Debug\Models\bunny_0.xml</Key>
-        <Value>2015-06-17T11:06:19+02:00</Value>
+        <Key>C:\Users\Tomas\Documents\Visual Studio 2013\Projects\GraphicsPractical3\GraphicsPractical3\GraphicsPractical3\obj\x86\Debug\Models\bunny_0.xml</Key>
+        <Value>2015-06-17T14:41:18.0318618+02:00</Value>
       </Dependency>
     </Item>
     <Item>
@@ -20,11 +20,11 @@
       <Importer>FbxImporter</Importer>
       <Processor>ModelProcessor</Processor>
       <Options>None</Options>
-      <Output>\\psf\Home\Desktop\CS\Graphics\p3\GraphicsPractical3\GraphicsPractical3\bin\x86\Debug\Content\Models\femalehead.xnb</Output>
-      <Time>2015-06-17T11:05:50+02:00</Time>
+      <Output>C:\Users\Tomas\Documents\Visual Studio 2013\Projects\GraphicsPractical3\GraphicsPractical3\GraphicsPractical3\bin\x86\Debug\Content\Models\femalehead.xnb</Output>
+      <Time>2015-06-17T11:30:03.8192438+02:00</Time>
       <Dependency>
-        <Key>\\psf\Home\Desktop\CS\Graphics\p3\GraphicsPractical3\GraphicsPractical3\obj\x86\Debug\Models\femalehead_0.xml</Key>
-        <Value>2015-06-17T11:06:19+02:00</Value>
+        <Key>C:\Users\Tomas\Documents\Visual Studio 2013\Projects\GraphicsPractical3\GraphicsPractical3\GraphicsPractical3\obj\x86\Debug\Models\femalehead_0.xml</Key>
+        <Value>2015-06-17T14:41:18.4381355+02:00</Value>
       </Dependency>
     </Item>
     <Item>
@@ -33,11 +33,11 @@
       <Importer>FbxImporter</Importer>
       <Processor>ModelProcessor</Processor>
       <Options>None</Options>
-      <Output>\\psf\Home\Desktop\CS\Graphics\p3\GraphicsPractical3\GraphicsPractical3\bin\x86\Debug\Content\Models\Teapot.xnb</Output>
-      <Time>2015-06-17T11:05:50+02:00</Time>
+      <Output>C:\Users\Tomas\Documents\Visual Studio 2013\Projects\GraphicsPractical3\GraphicsPractical3\GraphicsPractical3\bin\x86\Debug\Content\Models\Teapot.xnb</Output>
+      <Time>2015-06-17T11:30:03.7962262+02:00</Time>
       <Dependency>
-        <Key>\\psf\Home\Desktop\CS\Graphics\p3\GraphicsPractical3\GraphicsPractical3\obj\x86\Debug\Models\Teapot_0.xml</Key>
-        <Value>2015-06-17T11:06:20+02:00</Value>
+        <Key>C:\Users\Tomas\Documents\Visual Studio 2013\Projects\GraphicsPractical3\GraphicsPractical3\GraphicsPractical3\obj\x86\Debug\Models\Teapot_0.xml</Key>
+        <Value>2015-06-17T14:41:18.7349952+02:00</Value>
       </Dependency>
     </Item>
     <Item>
@@ -46,8 +46,8 @@
       <Importer>EffectImporter</Importer>
       <Processor>EffectProcessor</Processor>
       <Options>None</Options>
-      <Output>\\psf\Home\Desktop\CS\Graphics\p3\GraphicsPractical3\GraphicsPractical3\bin\x86\Debug\Content\Effects\Simple.xnb</Output>
-      <Time>2015-06-17T11:05:50+02:00</Time>
+      <Output>C:\Users\Tomas\Documents\Visual Studio 2013\Projects\GraphicsPractical3\GraphicsPractical3\GraphicsPractical3\bin\x86\Debug\Content\Effects\Simple.xnb</Output>
+      <Time>2015-06-17T11:30:03.7782134+02:00</Time>
     </Item>
     <Item>
       <Source>Normal Maps\CobblestonesNormal.png</Source>
@@ -55,8 +55,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>\\psf\Home\Desktop\CS\Graphics\p3\GraphicsPractical3\GraphicsPractical3\bin\x86\Debug\Content\Normal Maps\CobblestonesNormal.xnb</Output>
-      <Time>2015-06-17T11:05:50+02:00</Time>
+      <Output>C:\Users\Tomas\Documents\Visual Studio 2013\Projects\GraphicsPractical3\GraphicsPractical3\GraphicsPractical3\bin\x86\Debug\Content\Normal Maps\CobblestonesNormal.xnb</Output>
+      <Time>2015-06-17T11:30:03.8492651+02:00</Time>
     </Item>
     <Item>
       <Source>Textures\CobblestonesDiffuse.png</Source>
@@ -64,8 +64,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>\\psf\Home\Desktop\CS\Graphics\p3\GraphicsPractical3\GraphicsPractical3\bin\x86\Debug\Content\Textures\CobblestonesDiffuse.xnb</Output>
-      <Time>2015-06-17T11:05:50+02:00</Time>
+      <Output>C:\Users\Tomas\Documents\Visual Studio 2013\Projects\GraphicsPractical3\GraphicsPractical3\GraphicsPractical3\bin\x86\Debug\Content\Textures\CobblestonesDiffuse.xnb</Output>
+      <Time>2015-06-17T11:30:03.8852899+02:00</Time>
     </Item>
     <Item>
       <Source>Normal Maps\uffizi_cross.jpg</Source>
@@ -73,8 +73,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>\\psf\Home\Desktop\CS\Graphics\p3\GraphicsPractical3\GraphicsPractical3\bin\x86\Debug\Content\Normal Maps\uffizi_cross.xnb</Output>
-      <Time>2015-06-17T11:05:50+02:00</Time>
+      <Output>C:\Users\Tomas\Documents\Visual Studio 2013\Projects\GraphicsPractical3\GraphicsPractical3\GraphicsPractical3\bin\x86\Debug\Content\Normal Maps\uffizi_cross.xnb</Output>
+      <Time>2015-06-17T11:30:03.8562688+02:00</Time>
     </Item>
     <Item>
       <Source>Textures\uffizi_diff_cross.jpg</Source>
@@ -82,29 +82,29 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>\\psf\Home\Desktop\CS\Graphics\p3\GraphicsPractical3\GraphicsPractical3\bin\x86\Debug\Content\Textures\uffizi_diff_cross.xnb</Output>
-      <Time>2015-06-17T11:05:50+02:00</Time>
+      <Output>C:\Users\Tomas\Documents\Visual Studio 2013\Projects\GraphicsPractical3\GraphicsPractical3\GraphicsPractical3\bin\x86\Debug\Content\Textures\uffizi_diff_cross.xnb</Output>
+      <Time>2015-06-17T11:30:03.8892919+02:00</Time>
     </Item>
     <Item>
       <Source>Models\bunny.fbx</Source>
       <Importer>FbxImporter</Importer>
       <Options>IntermediateFile, DontCacheImportedData</Options>
-      <Output>\\psf\Home\Desktop\CS\Graphics\p3\GraphicsPractical3\GraphicsPractical3\obj\x86\Debug\Models\bunny_0.xml</Output>
-      <Time>2015-06-17T11:05:50+02:00</Time>
+      <Output>C:\Users\Tomas\Documents\Visual Studio 2013\Projects\GraphicsPractical3\GraphicsPractical3\GraphicsPractical3\obj\x86\Debug\Models\bunny_0.xml</Output>
+      <Time>2015-06-17T11:30:03.8022309+02:00</Time>
     </Item>
     <Item>
       <Source>Models\femalehead.fbx</Source>
       <Importer>FbxImporter</Importer>
       <Options>IntermediateFile, DontCacheImportedData</Options>
-      <Output>\\psf\Home\Desktop\CS\Graphics\p3\GraphicsPractical3\GraphicsPractical3\obj\x86\Debug\Models\femalehead_0.xml</Output>
-      <Time>2015-06-17T11:05:50+02:00</Time>
+      <Output>C:\Users\Tomas\Documents\Visual Studio 2013\Projects\GraphicsPractical3\GraphicsPractical3\GraphicsPractical3\obj\x86\Debug\Models\femalehead_0.xml</Output>
+      <Time>2015-06-17T11:30:03.8192438+02:00</Time>
     </Item>
     <Item>
       <Source>Models\Teapot.fbx</Source>
       <Importer>FbxImporter</Importer>
       <Options>IntermediateFile, DontCacheImportedData</Options>
-      <Output>\\psf\Home\Desktop\CS\Graphics\p3\GraphicsPractical3\GraphicsPractical3\obj\x86\Debug\Models\Teapot_0.xml</Output>
-      <Time>2015-06-17T11:05:50+02:00</Time>
+      <Output>C:\Users\Tomas\Documents\Visual Studio 2013\Projects\GraphicsPractical3\GraphicsPractical3\GraphicsPractical3\obj\x86\Debug\Models\Teapot_0.xml</Output>
+      <Time>2015-06-17T11:30:03.7962262+02:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
@@ -113,10 +113,10 @@
       <TargetProfile>Reach</TargetProfile>
       <BuildConfiguration>Debug</BuildConfiguration>
       <CompressContent>false</CompressContent>
-      <RootDirectory>\\psf\Home\Desktop\CS\Graphics\p3\GraphicsPractical3\GraphicsPractical3Content\</RootDirectory>
-      <LoggerRootDirectory>\\psf\Home\Desktop\CS\Graphics\p3\GraphicsPractical3\GraphicsPractical3\</LoggerRootDirectory>
-      <IntermediateDirectory>\\psf\Home\Desktop\CS\Graphics\p3\GraphicsPractical3\GraphicsPractical3\obj\x86\Debug\</IntermediateDirectory>
-      <OutputDirectory>\\psf\Home\Desktop\CS\Graphics\p3\GraphicsPractical3\GraphicsPractical3\bin\x86\Debug\Content\</OutputDirectory>
+      <RootDirectory>C:\Users\Tomas\Documents\Visual Studio 2013\Projects\GraphicsPractical3\GraphicsPractical3\GraphicsPractical3Content\</RootDirectory>
+      <LoggerRootDirectory>C:\Users\Tomas\Documents\Visual Studio 2013\Projects\GraphicsPractical3\GraphicsPractical3\GraphicsPractical3\</LoggerRootDirectory>
+      <IntermediateDirectory>C:\Users\Tomas\Documents\Visual Studio 2013\Projects\GraphicsPractical3\GraphicsPractical3\GraphicsPractical3\obj\x86\Debug\</IntermediateDirectory>
+      <OutputDirectory>C:\Users\Tomas\Documents\Visual Studio 2013\Projects\GraphicsPractical3\GraphicsPractical3\GraphicsPractical3\bin\x86\Debug\Content\</OutputDirectory>
     </Settings>
     <Assemblies>
       <Assembly>
@@ -145,7 +145,7 @@
       </Assembly>
       <Assembly>
         <Key>C:\Windows\Microsoft.Net\assembly\GAC_32\Microsoft.Xna.Framework.Content.Pipeline\v4.0_4.0.0.0__842cf8be1de50553\Microsoft.Xna.Framework.Content.Pipeline.dll</Key>
-        <Value>2015-04-23T11:09:04.5380767+02:00</Value>
+        <Value>2015-04-21T15:39:06.2371734+02:00</Value>
       </Assembly>
     </Assemblies>
   </Asset>
