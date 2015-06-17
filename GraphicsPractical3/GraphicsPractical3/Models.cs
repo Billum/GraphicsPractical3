@@ -23,10 +23,11 @@ namespace GraphicsPractical3
         
         public Models()
         {
-            this.pointLights = new PointLight[1];
+            this.pointLights = new PointLight[2];
             // Initiate Point Lights here
 
-            this.pointLights[0] = new Light(new Vector3(20, -15, -20), new Vector3(100, 100, 100));
+            this.pointLights[0] = new Light(new Vector3(50, -20, -30), new Vector3(80, 80, 80));
+            this.pointLights[1] = new Light(new Vector3(20, -50, -30), new Vector3(80, 80, 80));
 
             this.primitives = new Primitive[2];
             // Initiate Primitives here
