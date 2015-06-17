@@ -68,7 +68,7 @@ namespace GraphicsPractical3
             this.pixels = new Color[307200];
             this.eye = new Eye(new Vector3(0, 0, 0), new Vector3(0, 0, 1), 1f);
             this.screen = new Screen(640, 480, 0.001f);
-            this.pointLights = new PointLight[2];
+            this.pointLights = new PointLight[1];
             this.primitives = new Primitive[2];
             this.texture = new Texture2D(GraphicsDevice, 640, 480);
 
@@ -78,8 +78,8 @@ namespace GraphicsPractical3
             this.primitives[1] = new Triangle(new Vector3(-3, -3, 12), new Vector3(-3, 3, 12), new Vector3(3, 3, 12));
             this.primitives[1].Color = new Vector3(0f, 0f, 1f);
 
-            this.pointLights[1] = new Light(new Vector3(0, -20, 0), new Vector3(20, 20, 20));
-            this.pointLights[0] = new Light(new Vector3(20, 0, 0), new Vector3(0, 0, 0));
+            //this.pointLights[0] = new Light(new Vector3(0, -20, 0), new Vector3(100, 100, 100));
+            this.pointLights[0] = new Light(new Vector3(20, -15, -20), new Vector3(100, 100, 100));
 
             this.engine = new Engine(primitives, pointLights);
 
