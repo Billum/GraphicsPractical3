@@ -50,14 +50,15 @@ namespace GraphicsPractical3
 
         protected override void Initialize()
         {
+            this.screen = new Screen(640, 480, 0.001f);
             /* Initialize Graphics Device */
 
             // Copy over the device's rasterizer state to change the current fillMode
             this.GraphicsDevice.RasterizerState = new RasterizerState() { CullMode = CullMode.None };
             // Set up the window
-            this.graphics.PreferredBackBufferWidth = 640;
-            this.graphics.PreferredBackBufferHeight = 480;
             this.graphics.IsFullScreen = false;
+            this.graphics.PreferredBackBufferWidth = screen.Width;
+            this.graphics.PreferredBackBufferHeight = screen.Height;
             // Let the renderer draw and update as often as possible
             this.graphics.SynchronizeWithVerticalRetrace = false;
             this.IsFixedTimeStep = false;
@@ -66,10 +67,9 @@ namespace GraphicsPractical3
 
             /* Initialize Ray Tracer */
 
-            this.pixels = new Color[307200];
             this.eye = new Eye(new Vector3(0, 0, 0), new Vector3(0, 0, 1), 1f);
-            this.screen = new Screen(640, 480, 0.001f);
-            this.texture = new Texture2D(GraphicsDevice, 640, 480);
+            this.pixels = new Color[screen.Height * screen.Width];
+            this.texture = new Texture2D(GraphicsDevice, screen.Width, screen.Height);
             Models m = new Models();
             this.pointLights = m.PointLights();
             this.primitives = m.Primitives();

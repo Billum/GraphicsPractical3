@@ -12,25 +12,40 @@ namespace GraphicsPractical3.RayTracing
 {
     public class Screen
     {
-        public int Width;
-        public int Height;
-        public float PixelSize;
+        private int width;
+        private int height;
+        private float pixelSize;
+
+        public int Width
+        {
+            get { return width; }
+        }
+
+        public int Height
+        {
+            get { return height; }
+        }
+
+        public float PixelSize
+        {
+            get { return pixelSize; }
+        }
             
         public float RealWidth
         {
-            get { return (float)Width * PixelSize; }
+            get { return (float)width * pixelSize; }
         }
 
         public float RealHeight
         {
-            get { return (float)Height * PixelSize; }
+            get { return (float)height * pixelSize; }
         }
 
         public Screen(int width, int height, float pixelSize)
         {
-            Width = width;
-            Height = height;
-            PixelSize = pixelSize;
+            this.width = width;
+            this.height = height;
+            this.pixelSize = pixelSize;
         }
     }
 
@@ -74,7 +89,7 @@ namespace GraphicsPractical3.RayTracing
             {
                 pointLights = pL;
             }
-            Color[] result = new Color[307200];
+            Color[] result = new Color[s.Height * s.Width];
             Vector3 o = e.Position + ( -1 * e.Direction ) * e.DistanceToScreen;
             o = o - e.Right * (0.5f * s.RealWidth);
             o = o + e.Up * (0.5f * s.RealHeight);
