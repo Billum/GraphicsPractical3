@@ -122,11 +122,20 @@ namespace GraphicsPractical3.RayTracing
                     return tracer(Reflection(r, h));
                 }
                 //System.Diagnostics.Debugger.Break();
-                return DirectIllumination(r, h);
+                return comineColorLight(h.Material.Color, DirectIllumination(r, h));
             }
             else
                 // No hit, black background
                 return new Vector3 (0f, 0f, 0f);
+        }
+
+        private Vector3 comineColorLight(Vector3 color, Vector3 light)
+        {
+            float x = color.X * light.X;
+            float y = color.Y * light.Y;
+            float z = color.Z * light.Z;
+
+            return new Vector3(x, y, z);
         }
 
         private Primitive hit(Ray r, Primitive o = null, float d = float.MaxValue)
