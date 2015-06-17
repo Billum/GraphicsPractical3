@@ -104,7 +104,7 @@ namespace GraphicsPractical3
             }
             if (keyState.IsKeyDown(Keys.Right))
             {
-                eye.UpdateDirection(MathHelper.ToRadians(90));
+                eye.UpdateDirection(-1 * MathHelper.ToRadians(90));
             }
 
             base.Update(gameTime);
