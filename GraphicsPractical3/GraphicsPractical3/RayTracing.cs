@@ -165,8 +165,12 @@ namespace GraphicsPractical3.RayTracing
                 {
                     Vector3 normal = p.Normal(r);
                     float attenuation = 1.0f / (dist * dist);
-                    result = result + pL.Color * attenuation * Vector3.Dot(normal, l);
-                    result = new Vector3(Math.Abs(result.X), Math.Abs(result.Y), Math.Abs(result.Z));
+                    float dot = Vector3.Dot(normal, l);
+                    if (dot < 0)
+                    {
+                        dot = 0;
+                    }
+                    result = result + pL.Color * attenuation * dot;
                     //result = new Vector3(1, 1, 1);
                 }
             }
