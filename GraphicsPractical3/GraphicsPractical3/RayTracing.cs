@@ -117,6 +117,7 @@ namespace GraphicsPractical3.RayTracing
             Primitive h;
             if ((h = hit(r)) != null)
             {
+                
                 //System.Diagnostics.Debugger.Break();
                 return DirectIllumination(r, h);
             }
