@@ -3,7 +3,7 @@
   <Asset Type="Graphics:NodeContent">
     <Name>teapot_root</Name>
     <Identity>
-      <SourceFilename>C:\Users\Tomas\Documents\Visual Studio 2013\Projects\GraphicsPractical3\GraphicsPractical3\GraphicsPractical3Content\Models\Teapot.fbx</SourceFilename>
+      <SourceFilename>\\psf\Home\Desktop\CS\Graphics\p3\GraphicsPractical3\GraphicsPractical3Content\Models\Teapot.fbx</SourceFilename>
       <SourceTool>FbxImporter</SourceTool>
     </Identity>
     <Transform>1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</Transform>
@@ -32,7 +32,7 @@
     <Resource ID="#Resource1" Type="Graphics:BasicMaterialContent">
       <Name>defaultMat</Name>
       <Identity>
-        <SourceFilename>C:\Users\Tomas\Documents\Visual Studio 2013\Projects\GraphicsPractical3\GraphicsPractical3\GraphicsPractical3Content\Models\Teapot.fbx</SourceFilename>
+        <SourceFilename>\\psf\Home\Desktop\CS\Graphics\p3\GraphicsPractical3\GraphicsPractical3Content\Models\Teapot.fbx</SourceFilename>
         <SourceTool>FbxImporter</SourceTool>
       </Identity>
       <OpaqueData>
