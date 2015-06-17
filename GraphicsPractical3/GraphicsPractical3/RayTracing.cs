@@ -79,7 +79,7 @@ namespace GraphicsPractical3.RayTracing
                     Vector3 direction = new Vector3();
                     Vector3 origin = new Vector3();
                     origin = o + (i * xTrans) + (j * yTrans);
-                    direction = e.Position - origin;
+                    direction = origin - e.Position;
                     direction = Vector3.Normalize(direction);
                     Ray ray = new Ray(direction, origin);
                     Vector3 colour = tracer(ray);
