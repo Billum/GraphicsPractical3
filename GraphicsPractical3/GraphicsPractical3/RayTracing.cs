@@ -129,19 +129,22 @@ namespace GraphicsPractical3.RayTracing
                 return new Vector3 (0f, 0f, 0f);
         }
 
-        private Primitive hit(Ray r, float d = float.MaxValue)
+        private Primitive hit(Ray r, Primitive o = null, float d = float.MaxValue)
         {
             float shortest = d;
             Primitive thing = null;
             foreach (Primitive p in primitives)
             {
-                float pHit = p.HitDistance(r);
-                if (pHit != 0.0f)
+                if (o == null || p != o)
                 {
-                    if (pHit < shortest)
+                    float pHit = p.HitDistance(r);
+                    if (pHit != 0.0f)
                     {
-                        shortest = pHit;
-                        thing = p;
+                        if (pHit < shortest)
+                        {
+                            shortest = pHit;
+                            thing = p;
+                        }
                     }
                 }
             }
@@ -187,7 +190,7 @@ namespace GraphicsPractical3.RayTracing
                 float dist = l.Length();
                 Vector3 direction = Vector3.Normalize(l);
                 Ray nR = new Ray(direction, origin);
-                Primitive h = hit(nR, dist);
+                Primitive h = hit(nR, p, dist);
                 if (h == null)
                 {
                     Vector3 normal = p.Normal(r);

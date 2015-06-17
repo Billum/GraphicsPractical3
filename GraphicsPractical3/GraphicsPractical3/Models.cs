@@ -31,11 +31,12 @@ namespace GraphicsPractical3
             this.primitives = new Primitive[2];
             // Initiate Primitives here
 
-            this.primitives[0] = new Sphere(new Vector3(0, 0, 10), 1f);
+            this.primitives[0] = new Sphere(new Vector3(0, 0, 8), 1f);
             this.primitives[0].Material.Color = new Vector3(1f, 0f, 0f);
 
-            this.primitives[1] = new Triangle(new Vector3(-3, -3, 12), new Vector3(-3, 3, 12), new Vector3(3, 3, 12));
+            this.primitives[1] = new Triangle(new Vector3(-9, -3, 12), new Vector3(0, 9, 12), new Vector3(9, -3, 12));
             this.primitives[1].Material.Color = new Vector3(0f, 0f, 1f);
+            this.primitives[1].Material.Reflective = false;
         }
 
         public Primitive[] Primitives()
