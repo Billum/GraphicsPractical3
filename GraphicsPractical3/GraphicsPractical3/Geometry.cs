@@ -6,6 +6,19 @@ using Microsoft.Xna.Framework;
 
 namespace GraphicsPractical3.Geometry
 {
+    public class Model
+    {
+        public static Model LoadFromSinglePrimitive(Primitive p)
+        {
+            Model m = new Model();
+            m.Primitives = new Primitive[1];
+            m.Primitives[0] = p;
+            return m;
+        }
+
+        public Primitive[] Primitives;
+    }
+
     public abstract class Primitive
     {
         public Material Material;

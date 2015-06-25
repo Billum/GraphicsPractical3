@@ -16,7 +16,8 @@ using PointLight = GraphicsPractical3.Geometry.PointLight;
 using Engine = GraphicsPractical3.RayTracing.Engine;
 using Eye = GraphicsPractical3.RayTracing.Eye;
 using Screen = GraphicsPractical3.RayTracing.Screen;
-using Models = GraphicsPractical3.Models;
+using Model = GraphicsPractical3.Geometry.Model;
+using XnaModel = Microsoft.Xna.Framework.Graphics.Model;
 
 namespace GraphicsPractical3
 {
@@ -34,10 +35,6 @@ namespace GraphicsPractical3
         private Screen screen;
         private Eye eye;
         private Engine engine;
-
-        // Model
-        private Primitive[] primitives;
-        private PointLight[] pointLights;
 
         public Game1()
         {
@@ -70,11 +67,39 @@ namespace GraphicsPractical3
             this.eye = new Eye(new Vector3(0, 0, 0), new Vector3(0, 0, 1), 0.5f);
             this.pixels = new Color[screen.Height * screen.Width];
             this.texture = new Texture2D(GraphicsDevice, screen.Width, screen.Height);
-            Models m = new Models();
-            this.pointLights = m.PointLights();
-            this.primitives = m.Primitives();
 
-            this.engine = new Engine(primitives, pointLights);
+            /* Initialize models! */
+
+            ModelLoader loader = new ModelLoader();
+
+            // Add lights
+            loader.LoadPointLight(new Light(new Vector3(20, -50, -30), new Vector3(80, 80, 80)));
+            loader.LoadPointLight(new Light(new Vector3(50, -20, -30), new Vector3(80, 80, 80)));
+
+            // Init models (also single-primitve-models)
+            Primitive sphere = new Sphere(new Vector3(0, 0, 8), 1f);
+            sphere.Material.Color = new Vector3(0.5f, 0.5f, 0f);
+
+            Primitive triangle = new Triangle(new Vector3(-3, -3, 8), new Vector3(3, 3, 8), new Vector3(-3, 3, 8));
+            triangle.Material.Color = new Vector3(0.1f, 0.75f, 0.8f);
+            triangle.Material.Reflective = false;
+
+            // Init bunny model
+            FileModel bunny = new FileModel(Content.Load<XnaModel>("Models/bunny.fbx"));
+
+            // Actually load
+            loader.LoadModel(Model.LoadFromSinglePrimitive(sphere));
+            loader.LoadModel(Model.LoadFromSinglePrimitive(triangle));
+            loader.LoadModel(bunny);
+
+            /*
+             *  Load engine with primites and point lights managed by the model loader,
+             *  primitives are converted to models before loading using
+             *  LoadFromSinglePrimitve.
+             */
+            this.engine = new Engine(
+                loader.Primitives,
+                loader.PointLights);
 
             this.IsMouseVisible = true;
             base.Initialize();

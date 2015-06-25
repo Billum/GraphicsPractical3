@@ -9,12 +9,14 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using Model = GraphicsPractical3.Geometry.Model;
+using XnaModel = Microsoft.Xna.Framework.Graphics.Model;
 
 namespace GraphicsPractical3
 {
-    class MyModel
+    class FileModel : Model
     {
-        public MyModel(Model xnaModel)
+        public FileModel(XnaModel xnaModel)
         {
             List<Vector3> vertices = new List<Vector3>();
 
@@ -56,11 +58,18 @@ namespace GraphicsPractical3
                 }
             }
 
+            //
+            //  TODO :
+            //
+            //  Place resulting triangles in Primitives!
+            //
+
+
             // Copy list to array!
-            Vertices = vertices.ToArray();
+            //Vertices = vertices.ToArray();
 
             // Transform!
-            transformVertices(Vertices);
+            //transformVertices(Vertices);
         }
 
         private void transformVertices(Vector3[] v)
@@ -68,7 +77,5 @@ namespace GraphicsPractical3
             for (int i = 0; i < v.Length; i++)
                 v[i] = Vector3.Transform(v[i], new Matrix() /* TODO! */);
         }
-
-        public Vector3[] Vertices { get; private set; }
     }
 }
