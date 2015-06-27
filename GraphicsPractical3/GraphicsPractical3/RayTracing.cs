@@ -129,7 +129,6 @@ namespace GraphicsPractical3.RayTracing
                 {
                     return tracer(Reflection(r, h));
                 }
-                //System.Diagnostics.Debugger.Break();
                 return comineColorLight(h.Material.Color, DirectIllumination(r, h));
             }
             else

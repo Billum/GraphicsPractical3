@@ -11,6 +11,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using Model = GraphicsPractical3.Geometry.Model;
 using XnaModel = Microsoft.Xna.Framework.Graphics.Model;
+using Triangle = GraphicsPractical3.Geometry.Triangle;
 
 namespace GraphicsPractical3
 {
@@ -18,12 +19,18 @@ namespace GraphicsPractical3
     {
         public FileModel(XnaModel xnaModel)
         {
-            List<Vector3> vertices = new List<Vector3>();
+            Primitives = new Triangle[xnaModel.Meshes.Sum(m => m.MeshParts.Sum(mp => mp.PrimitiveCount))];
+            int woff = 0;
 
             foreach (var mesh in xnaModel.Meshes)
             {
                 foreach (var meshPart in mesh.MeshParts)
                 {
+                    /*
+                     * Check supported vertices, only load from the first supported vertex
+                     * (format).
+                     */
+
                     var vertexElements = meshPart.VertexBuffer.VertexDeclaration.GetVertexElements();
                     VertexElement? vertexPos = null;
                     foreach (var vertexElement in vertexElements)
@@ -31,7 +38,7 @@ namespace GraphicsPractical3
                         if (vertexElement.VertexElementUsage == VertexElementUsage.Position &&
                             vertexElement.VertexElementFormat == VertexElementFormat.Vector3)
                         {
-                            // Found suported vertices!
+                            // Found supported vertices!
                             vertexPos = vertexElement;
                             break;
                         }
@@ -40,36 +47,47 @@ namespace GraphicsPractical3
                     if (!vertexPos.HasValue)
                         throw new Exception("Failed to load model, incorrect format");
 
-                    // Allocate memory for all vertices
-                    var tmpVertices = new Vector3[meshPart.NumVertices];
+                    /*
+                     * Load vertex data into vertices buffer.
+                     */
 
-                    // Load vertices in memory
-                    meshPart.VertexBuffer.GetData<Vector3>
-                    (
-                        // Calculate offset in model vertices
-                        meshPart.VertexOffset * meshPart.VertexBuffer.VertexDeclaration.VertexStride + vertexPos.Value.Offset,
-                        tmpVertices,
-                        0,
-                        meshPart.NumVertices,
-                        meshPart.VertexBuffer.VertexDeclaration.VertexStride // Use correct format size
-                    );
+                    var vertices = new Vector3[meshPart.NumVertices];
+                    meshPart.VertexBuffer.GetData<Vector3>(meshPart.VertexOffset * meshPart.VertexBuffer.VertexDeclaration.VertexStride
+                                                                + vertexPos.Value.Offset // Calculate offset in model vertices
+                                                           , vertices
+                                                           , 0
+                                                           , meshPart.NumVertices
+                                                           , meshPart.VertexBuffer.VertexDeclaration.VertexStride); // Use correct format size
 
-                    vertices.AddRange(tmpVertices);
+                    /*
+                     *  Load indices into indices buffer.
+                     */
+
+                    var indices = new short[meshPart.PrimitiveCount * 3];
+                    meshPart.IndexBuffer.GetData<short>(0
+                                                        , indices
+                                                        , 0
+                                                        , meshPart.PrimitiveCount * 3);
+
+                    /*
+                     *  Copy triangles into triangle buffer by using the indices
+                     *  and vertices buffer;
+                     */
+
+                    for (int i = woff; i < meshPart.PrimitiveCount; i++)
+                    {
+                        int vi = i - woff;
+                        int i0 = indices[vi * 3 + 0],
+                            i1 = indices[vi * 3 + 1],
+                            i2 = indices[vi * 3 + 2];
+                        Primitives[i] = new Triangle(vertices[i0]
+                                                    , vertices[i1]
+                                                    , vertices[i2]);
+                    }
+
+                    woff += meshPart.PrimitiveCount;
                 }
             }
-
-            //
-            //  TODO :
-            //
-            //  Place resulting triangles in Primitives!
-            //
-
-
-            // Copy list to array!
-            //Vertices = vertices.ToArray();
-
-            // Transform!
-            //transformVertices(Vertices);
         }
 
         private void transformVertices(Vector3[] v)

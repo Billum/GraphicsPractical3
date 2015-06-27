@@ -85,7 +85,7 @@ namespace GraphicsPractical3
             triangle.Material.Reflective = false;
 
             // Init bunny model
-            FileModel bunny = new FileModel(Content.Load<XnaModel>("Models/bunny.fbx"));
+            FileModel bunny = new FileModel(Content.Load<XnaModel>("Models/bunny"));
 
             // Actually load
             loader.LoadModel(Model.LoadFromSinglePrimitive(sphere));
