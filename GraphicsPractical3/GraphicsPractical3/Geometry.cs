@@ -19,12 +19,25 @@ namespace GraphicsPractical3.Geometry
         public Primitive[] Primitives;
     }
 
+    public class BoundingBox
+    {
+        public Vector3 LeftBottom,
+                       LeftTop,
+                       RightTop;
+
+        public float SurfaceArea()
+        {
+            return 0; // TODO
+        }
+    }
+
     public abstract class Primitive
     {
         public Material Material;
         public abstract Vector3 Normal(Ray r);
         public abstract Vector3 Hit(Ray r);
         public abstract float HitDistance(Ray r);
+        public abstract BoundingBox BoundingBox();
     }
 
     public class Sphere : Primitive

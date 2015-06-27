@@ -89,7 +89,7 @@ namespace GraphicsPractical3
             Material bunnyMaterial = new Material();
             bunnyMaterial.Color = new Vector3(0.8f, 0.2f, 0.2f);
             bunnyMaterial.Reflective = false;
-            FileModel bunny = new FileModel(Content.Load<XnaModel>("Models/bunny"), bunnyMaterial, new Vector3(0, 0, 0.5f));
+            FileModel bunny = new FileModel(Content.Load<XnaModel>("Models/bunny"), bunnyMaterial, new Vector3(0, 0, 1.5f));
 
             // Actually load
             //loader.LoadModel(Model.LoadFromSinglePrimitive(sphere));

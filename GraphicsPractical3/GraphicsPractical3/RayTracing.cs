@@ -76,6 +76,48 @@ namespace GraphicsPractical3.RayTracing
         }
     }
 
+    public class BVHTree
+    {
+        public class Node
+        {
+            // bouding box
+            public int Left;
+            public int Num;
+            public BoundingBox BoundingBox;
+        }
+
+        public float SurfaceAreaOverPrimites(IEnumerable<Primitive> primitives)
+        {
+            // TODO : Something with primitives.Min
+        }
+
+        public BVHTree(Primitive[] primitives)
+        {
+            int lowestSplitIndex = 0;
+            float lowestSplitCost = float.MaxValue;
+
+            for (int i = 0; i < primitives.Length; i++)
+            {
+                var left = primitives.Take(i);
+                var right = primitives.Skip(i).Take(primitives.Length - i);
+
+                var leftCost = left.Count() * SurfaceAreaOverPrimites(left);
+                var rightCost = right.Count() * SurfaceAreaOverPrimites(right);
+
+                var cost = leftCost + rightCost;
+
+                if (cost < lowestSplitCost)
+                {
+                    lowestSplitIndex = i;
+                    lowestSplitCost = cost;
+                }
+            }
+
+            // etc.
+        }
+        
+    }
+
     public class Engine
     {
         private Primitive[] primitives;
@@ -216,8 +258,8 @@ namespace GraphicsPractical3.RayTracing
                     {
                         dot = 0;
                     }
-                    result = result + pL.Color * attenuation * dot + new Vector3(0.1f, 0.1f, 0.1f);// TODO REMOVE SIMPLE AO;
-                    //result = new Vector3(1, 1, 1);
+                    //result += (pL.Color * attenuation * dot) + new Vector3(0.1f, 0.1f, 0.1f);// TODO REMOVE SIMPLE AO;
+                    result = new Vector3(1, 1, 1);
                 }
             }
             return result;
