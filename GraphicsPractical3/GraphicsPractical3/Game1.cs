@@ -85,11 +85,14 @@ namespace GraphicsPractical3
             triangle.Material.Reflective = false;
 
             // Init bunny model
-            FileModel bunny = new FileModel(Content.Load<XnaModel>("Models/bunny"));
+            Material bunnyMaterial = new Material();
+            bunnyMaterial.Color = new Vector3(0.8f, 0.2f, 0.2f);
+            bunnyMaterial.Reflective = false;
+            FileModel bunny = new FileModel(Content.Load<XnaModel>("Models/DiamondSword"), bunnyMaterial, new Vector3(0, 0, 0.5f));
 
             // Actually load
-            loader.LoadModel(Model.LoadFromSinglePrimitive(sphere));
-            loader.LoadModel(Model.LoadFromSinglePrimitive(triangle));
+           // loader.LoadModel(Model.LoadFromSinglePrimitive(sphere));
+           // loader.LoadModel(Model.LoadFromSinglePrimitive(triangle));
             loader.LoadModel(bunny);
 
             /*
