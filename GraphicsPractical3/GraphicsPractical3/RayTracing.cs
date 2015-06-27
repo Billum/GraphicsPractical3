@@ -216,7 +216,7 @@ namespace GraphicsPractical3.RayTracing
                     {
                         dot = 0;
                     }
-                    result = result + pL.Color * attenuation * dot;
+                    result = result + pL.Color * attenuation * dot + new Vector3(0.1f, 0.1f, 0.1f);// TODO REMOVE SIMPLE AO;
                     //result = new Vector3(1, 1, 1);
                 }
             }

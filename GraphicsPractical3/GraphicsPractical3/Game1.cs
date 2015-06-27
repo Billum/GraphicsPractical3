@@ -74,7 +74,8 @@ namespace GraphicsPractical3
 
             // Add lights
             loader.LoadPointLight(new Light(new Vector3(20, -50, -30), new Vector3(80, 80, 80)));
-            loader.LoadPointLight(new Light(new Vector3(50, -20, -30), new Vector3(80, 80, 80)));
+            loader.LoadPointLight(new Light(new Vector3(50, 20, -30), new Vector3(80, 80, 80)));
+            loader.LoadPointLight(new Light(eye.Position, eye.Direction)); // Always a flashlight behind the camera :)
 
             // Init models (also single-primitve-models)
             Primitive sphere = new Sphere(new Vector3(0, 0, 8), 1f);
@@ -88,11 +89,11 @@ namespace GraphicsPractical3
             Material bunnyMaterial = new Material();
             bunnyMaterial.Color = new Vector3(0.8f, 0.2f, 0.2f);
             bunnyMaterial.Reflective = false;
-            FileModel bunny = new FileModel(Content.Load<XnaModel>("Models/DiamondSword"), bunnyMaterial, new Vector3(0, 0, 0.5f));
+            FileModel bunny = new FileModel(Content.Load<XnaModel>("Models/bunny"), bunnyMaterial, new Vector3(0, 0, 0.5f));
 
             // Actually load
-           // loader.LoadModel(Model.LoadFromSinglePrimitive(sphere));
-           // loader.LoadModel(Model.LoadFromSinglePrimitive(triangle));
+            //loader.LoadModel(Model.LoadFromSinglePrimitive(sphere));
+            //loader.LoadModel(Model.LoadFromSinglePrimitive(triangle));
             loader.LoadModel(bunny);
 
             /*
