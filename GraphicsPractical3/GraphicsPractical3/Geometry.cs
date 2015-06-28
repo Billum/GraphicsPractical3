@@ -69,7 +69,11 @@ namespace GraphicsPractical3.Geometry
 
         public float SurfaceArea()
         {
-            return 0; // TODO
+            var side1 = (MaxCorner.X - MinCorner.X) * (MaxCorner.Y - MinCorner.Y);
+            var side2 = (MaxCorner.Y - MinCorner.Y) * (MaxCorner.Z - MinCorner.Z);
+            var side3 = (MaxCorner.Z - MinCorner.Z) * (MaxCorner.X - MinCorner.X);
+
+            return 2 * (side1 + side2 + side3);
         }
     }
 
@@ -79,26 +83,38 @@ namespace GraphicsPractical3.Geometry
         public abstract Vector3 Normal(Ray r);
         public abstract Vector3 Hit(Ray r);
         public abstract float HitDistance(Ray r);
-        public abstract BoundingBox BoundingBox();
         public abstract Vector3 Center();
+        public abstract BoundingBox BoundingBox();
     }
 
     public class Sphere : Primitive
     {
-        public Material Material;
-        public Vector3 Center;
+        public Vector3 Centre;
         public float Radius;
         public Sphere(Vector3 Center, float Radius)
         {
-            this.Center = Center;
+            this.Centre = Center;
             this.Radius = Radius;
+        }
+
+        public override Vector3 Center()
+        {
+            return Centre;
+        }
+
+        public override BoundingBox BoundingBox()
+        {
+            var minCorner = new Vector3(Centre.X - Radius, Centre.Y - Radius, Centre.Z - Radius);
+            var maxCorner = new Vector3(Centre.X + Radius, Centre.Y + Radius, Centre.Z + Radius);
+
+            return new BoundingBox(minCorner, maxCorner);
         }
 
         public override float HitDistance(Ray r)
         {
             float t = 0.0f;
 
-            Vector3 m = r.Origin - Center;
+            Vector3 m = r.Origin - Centre;
             float b = Vector3.Dot(m, r.Direction);
             float c = Vector3.Dot(m, m) - Radius * Radius;
 
@@ -132,14 +148,14 @@ namespace GraphicsPractical3.Geometry
         public override Vector3 Normal(Ray r)
         {
             Vector3 i = Hit(r);
-            Vector3 a = i - Center;
+            Vector3 a = i - Centre;
 
             return Vector3.Normalize(a);
         }
     }
+
     public class Triangle : Primitive
     {
-        public Material Material;
         public Vector3 A;
         public Vector3 B;
         public Vector3 C;
@@ -149,6 +165,29 @@ namespace GraphicsPractical3.Geometry
             this.A = a;
             this.B = b;
             this.C = c;
+        }
+
+        public override BoundingBox BoundingBox()
+        {
+            float minX = Math.Min(Math.Min(A.X, B.X), C.X);
+            float minY = Math.Min(Math.Min(A.Y, B.Y), C.Y);
+            float minZ = Math.Min(Math.Min(A.Z, B.Z), C.Z);
+
+            float maxX = Math.Max(Math.Max(A.X, B.X), C.X);
+            float maxY = Math.Max(Math.Max(A.Y, B.Y), C.Y);
+            float maxZ = Math.Max(Math.Max(A.Z, B.Z), C.Z);
+
+            return new BoundingBox(new Vector3(minX, minY, minZ), new Vector3(maxX, maxY, maxZ));
+        }
+
+        public override Vector3 Center()
+        {
+            var c = new Vector3();
+            c.X = (A.X + B.X + C.X) / 3;
+            c.Y = (A.Y + B.Y + C.Y) / 3;
+            c.Z = (A.Z + B.Z + C.Z) / 3;
+
+            return c;
         }
 
         public override float HitDistance(Ray r) // See at pages 78-79 Fundamentals of Computer Graphics 3rd Edition

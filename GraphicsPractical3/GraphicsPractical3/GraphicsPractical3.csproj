@@ -72,6 +72,7 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BVHTree.cs" />
     <Compile Include="Camera.cs" />
     <Compile Include="Geometry.cs" />
     <Compile Include="FrameRateCounter.cs" />
