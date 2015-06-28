@@ -21,9 +21,51 @@ namespace GraphicsPractical3.Geometry
 
     public class BoundingBox
     {
-        public Vector3 LeftBottom,
-                       LeftTop,
-                       RightTop;
+        public Vector3 MinCorner;
+        public Vector3 MaxCorner;
+
+        public BoundingBox(Vector3 minCorner, Vector3 maxCorner)
+        {
+            MinCorner = minCorner;
+            MaxCorner = maxCorner;
+        }
+
+        public float Intersect(Ray r)
+        {
+            var inverseDirection = new Vector3 (
+                    1.0f / r.Direction.X,
+                    1.0f / r.Direction.Y,
+                    1.0f / r.Direction.Z
+                );
+
+            float txmin = (MinCorner.X - r.Origin.X) * inverseDirection.X,
+                  txmax = (MaxCorner.X - r.Origin.X) * inverseDirection.X,
+                  tymin = (MinCorner.Y - r.Origin.Y) * inverseDirection.Y,
+                  tymax = (MaxCorner.Y - r.Origin.Y) * inverseDirection.Y,
+                  tzmin = (MinCorner.Z - r.Origin.Z) * inverseDirection.Z,
+                  tzmax = (MaxCorner.Z - r.Origin.Z) * inverseDirection.Z;
+
+            float tMin = Math.Max(
+                            Math.Max(
+                                Math.Min(txmin, txmax),
+                                Math.Min(tymin, tymax)
+                            ),
+                            Math.Min(tzmin, tzmax)
+                         );
+
+            float tMax = Math.Min(
+                            Math.Min(
+                                Math.Max(txmin, txmax),
+                                Math.Max(tymin, tymax)
+                            ),
+                            Math.Max(tzmin, tzmax)
+                        );
+
+            if ((tMax > 0) && (tMin <= tMax))
+                return tMin;
+            else
+                return 0.0f;
+        }
 
         public float SurfaceArea()
         {
@@ -38,6 +80,7 @@ namespace GraphicsPractical3.Geometry
         public abstract Vector3 Hit(Ray r);
         public abstract float HitDistance(Ray r);
         public abstract BoundingBox BoundingBox();
+        public abstract Vector3 Center();
     }
 
     public class Sphere : Primitive

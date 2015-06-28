@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 using Ray = GraphicsPractical3.Geometry.Ray;
 using Primitive = GraphicsPractical3.Geometry.Primitive;
 using PointLight = GraphicsPractical3.Geometry.PointLight;
-
+using BoundingBox = GraphicsPractical3.Geometry.BoundingBox;
 
 namespace GraphicsPractical3.RayTracing
 {
@@ -80,29 +80,113 @@ namespace GraphicsPractical3.RayTracing
     {
         public class Node
         {
-            // bouding box
-            public int Left;
-            public int Num;
+            public int Start;
+            public int End;
             public BoundingBox BoundingBox;
+            public Node LeftChild;
+            public Node RightChild;
+
+            public int Num() { return End - Start; }
         }
 
-        public float SurfaceAreaOverPrimites(IEnumerable<Primitive> primitives)
+        public struct Hit
         {
-            // TODO : Something with primitives.Min
+            public float Distance;
+            public Primitive Primitive;
+
+            public Hit(float distance, Primitive p)
+            {
+                Distance = distance;
+                Primitive = p;
+            }
+
+            public static Hit? BestHit(Hit? h1, Hit? h2)
+            {
+                if (!h1.HasValue && !h2.HasValue)
+                    return null;
+
+                if (!h1.HasValue)
+                    return h2;
+                else if
+                    (!h2.HasValue)
+                    return h1;
+
+                if (h1.Value.Distance < h2.Value.Distance)
+                    return h1;
+                else
+                    return h2;
+            }
         }
 
         public BVHTree(Primitive[] primitives)
         {
+            this.indices = new int[primitives.Length];
+            this.primitives = primitives;
+            this.treeRoot = new Node
+                {
+                    Start = 0,
+                    End = primitives.Length,
+                    //BoundingBox = BoundingBoxOverPrimitives(primitives)
+                };
+
+            Split(treeRoot);
+        }
+
+        public Primitive TryHit(Ray r)
+        {
+            Hit? hit = HitNode(treeRoot, r);
+            if (hit.HasValue)
+                return hit.Value.Primitive;
+            else
+                return null; // No hit
+        }
+
+        private Hit? HitNode(Node n, Ray r)
+        {
+            if (n == null)
+                return null; // No hit
+
+            if (n.LeftChild == null && n.RightChild == null)
+            {
+                // We're in a leaf node, find the best hit in the current
+                // subset of primitives and return it
+                Hit? lowestHit = null;
+                for (int i = n.Start; i < n.End; i++)
+                {
+                    float hitDistance;
+                    if ((hitDistance = primitives[i].HitDistance(r)) != 0.0f)
+                        lowestHit = Hit.BestHit(lowestHit, new Hit(hitDistance, primitives[i]));
+                }
+
+                return lowestHit;
+            }
+            else
+            {
+                // Return the best hit from the two subtrees
+                return Hit.BestHit(HitNode(n.LeftChild, r), HitNode(n.RightChild, r));
+            }
+        }
+
+        private int BestSplitIndex(Node n, out float splitCost)
+        {
+            int numPrimitives = primitives.Count();
             int lowestSplitIndex = 0;
             float lowestSplitCost = float.MaxValue;
 
-            for (int i = 0; i < primitives.Length; i++)
+            for (int i = n.Start; i < n.End; i++)
             {
-                var left = primitives.Take(i);
-                var right = primitives.Skip(i).Take(primitives.Length - i);
+                var p = primitives[i];
 
-                var leftCost = left.Count() * SurfaceAreaOverPrimites(left);
-                var rightCost = right.Count() * SurfaceAreaOverPrimites(right);
+                // Get center point over which to split
+                var mid = p.Center();
+
+                // TODO : Only checks over X-axis
+                var left = primitives.Where(cp => cp.Center().X < mid.X);
+                var right = primitives.Where(cp => cp.Center().X >= mid.X);
+
+                // Determine SAH split cost
+                var leftCost = left.Count() * BoundingBoxOverPrimitives(left).SurfaceArea();
+                var rightCost = right.Count() * BoundingBoxOverPrimitives(right).SurfaceArea();
 
                 var cost = leftCost + rightCost;
 
@@ -113,9 +197,101 @@ namespace GraphicsPractical3.RayTracing
                 }
             }
 
-            // etc.
+            // also out the cost
+            splitCost = lowestSplitCost;
+            return lowestSplitIndex;
         }
-        
+
+        private void Split(Node n, float previousSplitCost = float.MaxValue /* By default split anyways */)
+        {
+            if (n.Num() == 1)
+                return; // No splitting necessary
+
+            float splitCost = 0f;
+            int splitIndex = BestSplitIndex(n, out splitCost);
+
+            if (splitCost > previousSplitCost)
+                return; // Terminal condition reached, when the split cost is actually
+                        // worst than the split cost of the previous split, we won't
+                        // continue
+
+            var splitPoint = primitives[splitIndex].Center();
+
+            var indicesLeft = new List<int>();
+            var indicesRight = new List<int>();
+
+            // Split indices in current subset of indices array over two lists,
+            // left of the split point and right of the split point
+            for (int i = n.Start; i < n.End; i++)
+            {
+                if (primitives[i].Center().X < splitPoint.X)
+                    indicesLeft.Add(i);
+                else
+                    indicesRight.Add(i);
+            }
+
+            // Now rearrange the current subset of the indices array
+            // so that the left primitives are first, and then the
+            // right primitives
+            int c1 = n.Start;
+            int c2 = 0;
+            foreach (int i in indicesLeft)
+            {
+                indices[c1] = i;
+                c1++;
+            }
+            c2 = c1;
+            foreach (int i in indicesRight)
+            {
+                indices[c2] = i;
+                c2++;
+            }
+            
+            // Register left child with start and end offsets
+            n.LeftChild = new Node
+                {
+                    Start = n.Start,
+                    End = c1,
+                    BoundingBox = BoundingBoxOverPrimitives(primitives.Skip(n.Start).Take(c1 - n.Start))
+                };
+
+            // Register right child with start and end offsets
+            n.RightChild = new Node
+                {
+                    Start = c1,
+                    End = c2,
+                    BoundingBox = BoundingBoxOverPrimitives(primitives.Skip(c1).Take(c2 - c1))
+                };
+
+            // Further split left and right
+            Split(n.LeftChild, splitCost);
+            Split(n.RightChild, splitCost);
+        }
+
+        private BoundingBox BoundingBoxOverPrimitives(IEnumerable<Primitive> primitives)
+        {
+            Vector3 minCorner = new Vector3(float.MaxValue, float.MaxValue, float.MaxValue);
+            Vector3 maxCorner = new Vector3(float.MinValue, float.MinValue, float.MinValue);
+
+            foreach (var p in primitives)
+            {
+                var bbox = p.BoundingBox();
+
+                minCorner.X = Math.Min(minCorner.X, bbox.MinCorner.X);
+                minCorner.Y = Math.Min(minCorner.Y, bbox.MinCorner.Y);
+                minCorner.Z = Math.Min(minCorner.Z, bbox.MinCorner.Z);
+
+                maxCorner.X = Math.Max(maxCorner.X, bbox.MaxCorner.X);
+                maxCorner.Y = Math.Max(maxCorner.Y, bbox.MaxCorner.Y);
+                maxCorner.Z = Math.Max(maxCorner.Z, bbox.MaxCorner.Z);
+            }
+
+            return new BoundingBox(minCorner, maxCorner);
+        }
+
+        private int[] indices;
+        private Primitive[] primitives;
+        private Node treeRoot;
     }
 
     public class Engine
