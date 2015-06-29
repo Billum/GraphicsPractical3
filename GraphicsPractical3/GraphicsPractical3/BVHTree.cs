@@ -44,8 +44,7 @@ namespace GraphicsPractical3
 
                 if (!h1.HasValue)
                     return h2;
-                else if
-                    (!h2.HasValue)
+                else if (!h2.HasValue)
                     return h1;
 
                 if (h1.Value.Distance < h2.Value.Distance)
@@ -58,22 +57,15 @@ namespace GraphicsPractical3
         public BVHTree(Primitive[] primitives)
         {
             this.indices = new int[primitives.Length];
+            for (int i = 0; i < indices.Length; i++)
+                indices[i] = i;
+
             this.primitives = primitives;
             this.treeRoot = new Node
             {
                 Start = 0,
                 End = primitives.Length,
-                BoundingBox =
-                    // Alwasy hit this bounding box, no need to recalculate
-                    // the super bounding box over all primitives
-                    new BoundingBox(
-                          new Vector3( float.MinValue
-                                     , float.MinValue
-                                     , float.MinValue)
-                        , new Vector3( float.MaxValue
-                                     , float.MaxValue
-                                     , float.MaxValue)
-                    )
+                BoundingBox = BoundingBoxOverPrimitives(0, indices.Length)
             };
 
             Split(treeRoot);
@@ -235,16 +227,16 @@ namespace GraphicsPractical3
 
         // ----
 
-        public Primitive TryHit(Ray r)
+        public Primitive TryHit(Ray r, Primitive except = null, float minDistance = float.MaxValue)
         {
-            Hit? hit = HitNode(treeRoot, r);
+            Hit? hit = HitNode(treeRoot, r, except, minDistance);
             if (hit.HasValue)
                 return hit.Value.Primitive;
             else
                 return null; // No hit
         }
 
-        private Hit? HitNode(Node n, Ray r)
+        private Hit? HitNode(Node n, Ray r, Primitive except, float minDistance)
         {
             if (n == null)
                 return null; // No hit
@@ -252,14 +244,16 @@ namespace GraphicsPractical3
             if (n.BoundingBox.Intersect(r) == 0.0f)
                 return null; // No hit
 
-            if (n.LeftChild == null && n.RightChild == null)
+            if (n.LeftChild == null || n.RightChild == null)
             {
                 // We're in a leaf node, find the best hit in the current
                 // subset of primitives and return it
-                Hit? lowestHit = null;
+                Hit? lowestHit = new Hit(minDistance, null);
                 for (int i = n.Start; i < n.End; i++)
                 {
                     Primitive p = primitives[indices[i]];
+                    if (p == except)
+                        continue; // Skip this one
 
                     float hitDistance;
                     if ((hitDistance = p.HitDistance(r)) != 0.0f)
@@ -271,59 +265,47 @@ namespace GraphicsPractical3
             else
             {
                 // Return the best hit from the two subtrees
-                return Hit.BestHit(HitNode(n.LeftChild, r), HitNode(n.RightChild, r));
+                return Hit.BestHit(
+                            HitNode(n.LeftChild, r, except, minDistance),
+                            HitNode(n.RightChild, r, except, minDistance)
+                        );
             }
         }
 
-        private int BestSplitIndex(Node n, out float splitCost)
+        private Vector3 BestSplitPoint(Node n, out float splitCost)
         {
-            int numPrimitives = primitives.Count();
-            int lowestSplitIndex = 0;
+            Vector3 lowestSplitPoint = Vector3.Zero;
             float lowestSplitCost = float.MaxValue;
 
             for (int i = n.Start; i < n.End; i++)
             {
-                var p = primitives[i];
-
-                // Get center point over which to split
-                var mid = p.Center();
-
-                // TODO : Only checks over X-axis
-                var left = primitives.Where(cp => cp.Center().X < mid.X);
-                var right = primitives.Where(cp => cp.Center().X >= mid.X);
-
-                // Determine SAH split cost
-                var leftCost = left.Count() * BoundingBoxOverPrimitives(left).SurfaceArea();
-                var rightCost = right.Count() * BoundingBoxOverPrimitives(right).SurfaceArea();
-
-                var cost = leftCost + rightCost;
+                Primitive p = primitives[indices[i]];
+                var cost = Cost(n.Start, n.End, p.Center().X);
 
                 if (cost < lowestSplitCost)
                 {
-                    lowestSplitIndex = i;
+                    lowestSplitPoint = p.Center();
                     lowestSplitCost = cost;
                 }
             }
 
             // also out the cost
             splitCost = lowestSplitCost;
-            return lowestSplitIndex;
+            return lowestSplitPoint;
         }
 
         private void Split(Node n, float previousSplitCost = float.MaxValue /* By default split anyways */)
         {
-            if (n.Num() == 1)
+            if (n.Num() < 1)
                 return; // No splitting necessary
 
             float splitCost = 0f;
-            int splitIndex = BestSplitIndex(n, out splitCost);
+            Vector3 splitPoint = BestSplitPoint(n, out splitCost);
 
-            if (splitCost > previousSplitCost)
+            if (splitCost >= previousSplitCost)
                 return; // Terminal condition reached, when the split cost is actually
-            // worst than the split cost of the previous split, we won't
-            // continue
-
-            var splitPoint = primitives[splitIndex].Center();
+                        // worse than the split cost of the previous split, we won't
+                        // continue
 
             var indicesLeft = new List<int>();
             var indicesRight = new List<int>();
@@ -332,10 +314,11 @@ namespace GraphicsPractical3
             // left of the split point and right of the split point
             for (int i = n.Start; i < n.End; i++)
             {
-                if (primitives[i].Center().X < splitPoint.X)
-                    indicesLeft.Add(i);
+                var p = primitives[indices[i]];
+                if (p.Center().X < splitPoint.X)
+                    indicesLeft.Add(indices[i]);
                 else
-                    indicesRight.Add(i);
+                    indicesRight.Add(indices[i]);
             }
 
             // Now rearrange the current subset of the indices array
@@ -360,7 +343,7 @@ namespace GraphicsPractical3
             {
                 Start = n.Start,
                 End = c1,
-                BoundingBox = BoundingBoxOverPrimitives(primitives.Skip(n.Start).Take(c1 - n.Start))
+                BoundingBox = BoundingBoxOverPrimitives(n.Start, c1)
             };
 
             // Register right child with start and end offsets
@@ -368,7 +351,7 @@ namespace GraphicsPractical3
             {
                 Start = c1,
                 End = c2,
-                BoundingBox = BoundingBoxOverPrimitives(primitives.Skip(c1).Take(c2 - c1))
+                BoundingBox = BoundingBoxOverPrimitives(c1, c2)
             };
 
             // Further split left and right
@@ -376,13 +359,59 @@ namespace GraphicsPractical3
             Split(n.RightChild, splitCost);
         }
 
-        private BoundingBox BoundingBoxOverPrimitives(IEnumerable<Primitive> primitives)
+        private float Cost(int start, int end, float xsplit)
+        {
+            Vector3 minCornerLeft = new Vector3(float.MaxValue, float.MaxValue, float.MaxValue);
+            Vector3 maxCornerLeft = new Vector3(float.MinValue, float.MinValue, float.MinValue);
+
+            Vector3 minCornerRight = new Vector3(float.MaxValue, float.MaxValue, float.MaxValue);
+            Vector3 maxCornerRight = new Vector3(float.MinValue, float.MinValue, float.MinValue);
+
+            int numLeft = 0;
+            int numRight = 0;
+
+            for (int i = start; i < end; i++)
+            {
+                Primitive p = primitives[indices[i]];
+
+                var bbox = p.BoundingBox();
+
+                if (p.Center().X < xsplit)
+                {
+                    minCornerLeft.X = Math.Min(minCornerLeft.X, bbox.MinCorner.X);
+                    minCornerLeft.Y = Math.Min(minCornerLeft.Y, bbox.MinCorner.Y);
+                    minCornerLeft.Z = Math.Min(minCornerLeft.Z, bbox.MinCorner.Z);
+                    maxCornerLeft.X = Math.Max(maxCornerLeft.X, bbox.MaxCorner.X);
+                    maxCornerLeft.Y = Math.Max(maxCornerLeft.Y, bbox.MaxCorner.Y);
+                    maxCornerLeft.Z = Math.Max(maxCornerLeft.Z, bbox.MaxCorner.Z);
+                    numLeft++;
+                }
+                else
+                {
+                    minCornerRight.X = Math.Min(minCornerRight.X, bbox.MinCorner.X);
+                    minCornerRight.Y = Math.Min(minCornerRight.Y, bbox.MinCorner.Y);
+                    minCornerRight.Z = Math.Min(minCornerRight.Z, bbox.MinCorner.Z);
+                    maxCornerRight.X = Math.Max(maxCornerRight.X, bbox.MaxCorner.X);
+                    maxCornerRight.Y = Math.Max(maxCornerRight.Y, bbox.MaxCorner.Y);
+                    maxCornerRight.Z = Math.Max(maxCornerRight.Z, bbox.MaxCorner.Z);
+                    numRight++;
+                }
+            }
+
+            var bboxLeft = new BoundingBox(minCornerLeft, maxCornerLeft);
+            var bboxRight = new BoundingBox(minCornerRight, maxCornerRight);
+
+            return (numLeft * bboxLeft.SurfaceArea()) + (numRight * bboxRight.SurfaceArea());
+        }
+
+        private BoundingBox BoundingBoxOverPrimitives(int start, int end)
         {
             Vector3 minCorner = new Vector3(float.MaxValue, float.MaxValue, float.MaxValue);
             Vector3 maxCorner = new Vector3(float.MinValue, float.MinValue, float.MinValue);
 
-            foreach (var p in primitives)
+            for (int i = start; i < end; i++)
             {
+                var p = primitives[indices[i]];
                 var bbox = p.BoundingBox();
 
                 minCorner.X = Math.Min(minCorner.X, bbox.MinCorner.X);

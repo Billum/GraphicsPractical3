@@ -17,7 +17,7 @@ namespace GraphicsPractical3
 {
     class FileModel : Model
     {
-        public FileModel(XnaModel xnaModel, Material material, Vector3 dpos)
+        public FileModel(XnaModel xnaModel, Material material, Vector3 dpos, Vector3 transform)
         {
             Primitives = new Triangle[xnaModel.Meshes.Sum(m => m.MeshParts.Sum(mp => mp.PrimitiveCount))];
             int woff = 0;
@@ -59,7 +59,7 @@ namespace GraphicsPractical3
                                                            , meshPart.NumVertices
                                                            , meshPart.VertexBuffer.VertexDeclaration.VertexStride); // Use correct format size
 
-                    transformVertices(vertices, dpos);
+                    transformVertices(vertices, dpos, transform);
 
                     /*
                      *  Load indices into indices buffer.
@@ -93,10 +93,13 @@ namespace GraphicsPractical3
             }
         }
 
-        private void transformVertices(Vector3[] v, Vector3 dpos)
+        private void transformVertices(Vector3[] v, Vector3 dpos, Vector3 transform)
         {
             for (int i = 0; i < v.Length; i++)
+            {
+                v[i] = Vector3.Multiply(v[i], transform);
                 v[i] = Vector3.Add(v[i], dpos);
+            }
         }
     }
 }

@@ -64,7 +64,7 @@ namespace GraphicsPractical3
 
             /* Initialize Ray Tracer */
 
-            this.eye = new Eye(new Vector3(0, 0, 0), new Vector3(0, 0, 1), 0.5f);
+            this.eye = new Eye(new Vector3(1.5f, 0, 2), new Vector3(-2, 0, -1), 1f);
             this.pixels = new Color[screen.Height * screen.Width];
             this.texture = new Texture2D(GraphicsDevice, screen.Width, screen.Height);
 
@@ -89,7 +89,7 @@ namespace GraphicsPractical3
             Material bunnyMaterial = new Material();
             bunnyMaterial.Color = new Vector3(0.8f, 0.2f, 0.2f);
             bunnyMaterial.Reflective = false;
-            FileModel bunny = new FileModel(Content.Load<XnaModel>("Models/bunny"), bunnyMaterial, new Vector3(0, 0, 1.5f));
+            FileModel bunny = new FileModel(Content.Load<XnaModel>("Models/bunny"), bunnyMaterial, new Vector3(0, 0.1f, 1.2f), new Vector3(-2, -2, 2));
 
             // Actually load
             //loader.LoadModel(Model.LoadFromSinglePrimitive(sphere));
@@ -119,7 +119,7 @@ namespace GraphicsPractical3
         {
             float timeStep = (float)gameTime.ElapsedGameTime.TotalSeconds * 60.0f;
             // Update the window title
-            this.Window.Title = "Ray Tracer | FPS: " + this.frameRateCounter.FrameRate;
+            this.Window.Title = "Ray Tracer | FPS: " + this.frameRateCounter.FrameRate.ToString();
 
             KeyboardState keyState = Keyboard.GetState();
 

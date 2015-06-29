@@ -89,12 +89,6 @@ namespace GraphicsPractical3.RayTracing
             pointLights = pL;
 
             bvh = new BVHTree(primitives);
-
-            // Test code
-
-            bvh.SaveToFile("test.bvh");
-
-            new BVHTree(primitives, "test.bvh").SaveToFile("test2.bvh");
         }
 
         public Color[] Update(Eye e, Screen s, Primitive[] p = null, PointLight[] pL = null)
@@ -178,7 +172,7 @@ namespace GraphicsPractical3.RayTracing
             return thing;
              * */
 
-            return bvh.TryHit(r);
+            return bvh.TryHit(r, o, d);
         }
 
         public Ray Reflection(Ray r, Primitive p)
@@ -230,8 +224,7 @@ namespace GraphicsPractical3.RayTracing
                     {
                         dot = 0;
                     }
-                    //result += (pL.Color * attenuation * dot) + new Vector3(0.1f, 0.1f, 0.1f);// TODO REMOVE SIMPLE AO;
-                    result = new Vector3(1, 1, 1);
+                    result += (pL.Color * attenuation * dot);
                 }
             }
             return result;
