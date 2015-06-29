@@ -15,10 +15,19 @@ namespace GraphicsPractical3
 {
     public class BVHTree
     {
+        public enum Axis
+        {
+            X,
+            Y,
+            Z,
+            None
+        }
+
         public class Node
         {
             public int Start;
             public int End;
+            public Axis SplitOver;
             public BoundingBox BoundingBox;
             public Node LeftChild;
             public Node RightChild;
@@ -65,6 +74,7 @@ namespace GraphicsPractical3
             {
                 Start = 0,
                 End = primitives.Length,
+                SplitOver = Axis.None,
                 BoundingBox = BoundingBoxOverPrimitives(0, indices.Length)
             };
 
@@ -272,26 +282,50 @@ namespace GraphicsPractical3
             }
         }
 
-        private Vector3 BestSplitPoint(Node n, out float splitCost)
+        private float BestSplit(Node n, out Axis splitOver, out float splitCost)
         {
-            Vector3 lowestSplitPoint = Vector3.Zero;
+            float lowestSplitValue = 0.0f;
+            Axis lowestSplitOver = Axis.None;
             float lowestSplitCost = float.MaxValue;
 
             for (int i = n.Start; i < n.End; i++)
             {
                 Primitive p = primitives[indices[i]];
-                var cost = Cost(n.Start, n.End, p.Center().X);
+                Vector3 c = p.Center();
+                var costX = Cost(n.Start, n.End, p.Center().X, Axis.X);
+                var costY = Cost(n.Start, n.End, p.Center().Y, Axis.Y);
+                var costZ = Cost(n.Start, n.End, p.Center().Z, Axis.Z);
 
-                if (cost < lowestSplitCost)
+                // check whether lower for each split X, Y and Z
+                // and overwrite if necessary
+                // this way we select the best split over all dimensions
+
+                if (costX < lowestSplitCost)
                 {
-                    lowestSplitPoint = p.Center();
-                    lowestSplitCost = cost;
+                    lowestSplitValue = p.Center().X;
+                    lowestSplitCost = costX;
+                    lowestSplitOver = Axis.X;
+                }
+
+                if (costY < lowestSplitCost)
+                {
+                    lowestSplitValue = p.Center().Y;
+                    lowestSplitCost = costY;
+                    lowestSplitOver = Axis.Y;
+                }
+
+                if (costZ < lowestSplitCost)
+                {
+                    lowestSplitValue = p.Center().Z;
+                    lowestSplitCost = costZ;
+                    lowestSplitOver = Axis.Z;
                 }
             }
 
             // also out the cost
             splitCost = lowestSplitCost;
-            return lowestSplitPoint;
+            splitOver = lowestSplitOver;
+            return lowestSplitValue;
         }
 
         private void Split(Node n, float previousSplitCost = float.MaxValue /* By default split anyways */)
@@ -300,7 +334,8 @@ namespace GraphicsPractical3
                 return; // No splitting necessary
 
             float splitCost = 0f;
-            Vector3 splitPoint = BestSplitPoint(n, out splitCost);
+            Axis splitOver = Axis.None;
+            float split = BestSplit(n, out splitOver, out splitCost);
 
             if (splitCost >= previousSplitCost)
                 return; // Terminal condition reached, when the split cost is actually
@@ -315,7 +350,20 @@ namespace GraphicsPractical3
             for (int i = n.Start; i < n.End; i++)
             {
                 var p = primitives[indices[i]];
-                if (p.Center().X < splitPoint.X)
+
+                // Determine x y or z value over which to split
+                float psplit = 0f;
+                switch (splitOver)
+                {
+                    case Axis.X: psplit = p.Center().X;
+                        break;
+                    case Axis.Y: psplit = p.Center().Y;
+                        break;
+                    case Axis.Z: psplit = p.Center().Z;
+                        break;
+                }
+
+                if (psplit < split)
                     indicesLeft.Add(indices[i]);
                 else
                     indicesRight.Add(indices[i]);
@@ -338,11 +386,15 @@ namespace GraphicsPractical3
                 c2++;
             }
 
+            // Split over ...
+            n.SplitOver = splitOver;
+
             // Register left child with start and end offsets
             n.LeftChild = new Node
             {
                 Start = n.Start,
                 End = c1,
+                SplitOver = Axis.None, // Is determined by splitting
                 BoundingBox = BoundingBoxOverPrimitives(n.Start, c1)
             };
 
@@ -351,6 +403,7 @@ namespace GraphicsPractical3
             {
                 Start = c1,
                 End = c2,
+                SplitOver = Axis.None, // Is determined by splitting
                 BoundingBox = BoundingBoxOverPrimitives(c1, c2)
             };
 
@@ -359,7 +412,7 @@ namespace GraphicsPractical3
             Split(n.RightChild, splitCost);
         }
 
-        private float Cost(int start, int end, float xsplit)
+        private float Cost(int start, int end, float split, Axis over)
         {
             Vector3 minCornerLeft = new Vector3(float.MaxValue, float.MaxValue, float.MaxValue);
             Vector3 maxCornerLeft = new Vector3(float.MinValue, float.MinValue, float.MinValue);
@@ -376,7 +429,21 @@ namespace GraphicsPractical3
 
                 var bbox = p.BoundingBox();
 
-                if (p.Center().X < xsplit)
+                // Determine x y or z value over which to split
+                float psplit = 0f;
+                switch (over)
+                {
+                    case Axis.X: psplit = p.Center().X;
+                        break;
+                    case Axis.Y: psplit = p.Center().Y;
+                        break;
+                    case Axis.Z: psplit = p.Center().Z;
+                        break;
+                }
+
+                // Compare current x y or z to split x y or z to determine
+                // whether to put in left or right bbox
+                if (psplit < split)
                 {
                     minCornerLeft.X = Math.Min(minCornerLeft.X, bbox.MinCorner.X);
                     minCornerLeft.Y = Math.Min(minCornerLeft.Y, bbox.MinCorner.Y);

@@ -26,7 +26,6 @@ namespace GraphicsPractical3
         // Often used XNA objects
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
-        private FrameRateCounter frameRateCounter;
         private Texture2D texture;
         private Color[] pixels;
 
@@ -36,13 +35,13 @@ namespace GraphicsPractical3
         private Eye eye;
         private Engine engine;
 
+        private System.Diagnostics.Stopwatch sw;
+
         public Game1()
         {
             this.graphics = new GraphicsDeviceManager(this);
             this.Content.RootDirectory = "Content";
-            // Create and add a frame rate counter
-            this.frameRateCounter = new FrameRateCounter(this);
-            this.Components.Add(this.frameRateCounter);
+            this.sw = new System.Diagnostics.Stopwatch();
         }
 
         protected override void Initialize()
@@ -117,10 +116,6 @@ namespace GraphicsPractical3
 
         protected override void Update(GameTime gameTime)
         {
-            float timeStep = (float)gameTime.ElapsedGameTime.TotalSeconds * 60.0f;
-            // Update the window title
-            this.Window.Title = "Ray Tracer | FPS: " + this.frameRateCounter.FrameRate.ToString();
-
             KeyboardState keyState = Keyboard.GetState();
 
             if (keyState.IsKeyDown(Keys.Escape))
@@ -146,6 +141,10 @@ namespace GraphicsPractical3
             this.GraphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, Color.White, 1.0f, 0);
             this.GraphicsDevice.Textures[0] = null;
 
+            // (measure Framerate)
+            sw.Reset();
+            sw.Start();
+
             // Load texture and draw texture, the texture is the 2D output of the
             // ray tracer!
             //
@@ -155,6 +154,10 @@ namespace GraphicsPractical3
             spriteBatch.Begin();
             spriteBatch.Draw(texture, Vector2.Zero, Color.Azure);
             spriteBatch.End();
+
+            // (print Framerate)
+            sw.Stop();
+            this.Window.Title = "Ray Tracer | FPS: " + (1f / sw.ElapsedMilliseconds * 1000).ToString();
 
             base.Draw(gameTime);
         }
