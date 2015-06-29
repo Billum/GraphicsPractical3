@@ -3,3 +3,9 @@ Content\Models\femalehead.xnb
 Content\Models\Teapot.xnb
 Content\Models\cube.xnb
 Content\Models\balonnen.xnb
+Content\Models\Glass.xnb
+Content\Models\TankGuerra.xnb
+Content\Models\truck.xnb
+Content\Models\Android.xnb
+Content\Models\Alien.xnb
+Content\Models\car.xnb

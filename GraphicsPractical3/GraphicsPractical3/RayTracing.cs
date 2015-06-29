@@ -135,10 +135,12 @@ namespace GraphicsPractical3.RayTracing
             Primitive h;
             if ((h = hit(r)) != null)
             {
-                if (h.Material.Reflective == true)
-                {
+                if (h.Material.Glass)
+                    return (0.1f * tracer(Reflection(r, h))) + (0.9f * tracer(Refraction(r, h, 9, 10)));
+
+                if (h.Material.Reflective)
                     return tracer(Reflection(r, h));
-                }
+
                 return comineColorLight(h.Material.Color, DirectIllumination(r, h));
             }
             else

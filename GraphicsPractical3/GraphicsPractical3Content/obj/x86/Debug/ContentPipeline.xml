@@ -101,6 +101,126 @@
       <Output>obj\x86\Debug\Models\balonnen_0.xml</Output>
       <Time>2014-08-18T17:22:10+02:00</Time>
     </Item>
+    <Item>
+      <Source>Models\Glass.fbx</Source>
+      <Name>Models\Glass</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+      <Options>None</Options>
+      <Output>\\psf\Home\Documents\GraphicsPractical3\GraphicsPractical3\GraphicsPractical3\bin\x86\Debug\Content\Models\Glass.xnb</Output>
+      <Time>2014-08-31T14:51:02+02:00</Time>
+      <Dependency>
+        <Key>obj\x86\Debug\Models\Glass_0.xml</Key>
+        <Value>2015-06-29T21:25:28+02:00</Value>
+      </Dependency>
+    </Item>
+    <Item>
+      <Source>Models\Glass.fbx</Source>
+      <Importer>FbxImporter</Importer>
+      <Options>IntermediateFile, DontCacheImportedData</Options>
+      <Output>obj\x86\Debug\Models\Glass_0.xml</Output>
+      <Time>2014-08-31T14:51:02+02:00</Time>
+    </Item>
+    <Item>
+      <Source>Models\TankGuerra.fbx</Source>
+      <Name>Models\TankGuerra</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+      <Options>None</Options>
+      <Output>\\psf\Home\Documents\GraphicsPractical3\GraphicsPractical3\GraphicsPractical3\bin\x86\Debug\Content\Models\TankGuerra.xnb</Output>
+      <Time>2015-06-04T16:14:32+02:00</Time>
+      <Dependency>
+        <Key>obj\x86\Debug\Models\TankGuerra_0.xml</Key>
+        <Value>2015-06-29T21:45:20+02:00</Value>
+      </Dependency>
+    </Item>
+    <Item>
+      <Source>Models\TankGuerra.fbx</Source>
+      <Importer>FbxImporter</Importer>
+      <Options>IntermediateFile, DontCacheImportedData</Options>
+      <Output>obj\x86\Debug\Models\TankGuerra_0.xml</Output>
+      <Time>2015-06-04T16:14:32+02:00</Time>
+    </Item>
+    <Item>
+      <Source>Models\truck.FBX</Source>
+      <Name>Models\truck</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+      <Options>None</Options>
+      <Output>\\psf\Home\Documents\GraphicsPractical3\GraphicsPractical3\GraphicsPractical3\bin\x86\Debug\Content\Models\truck.xnb</Output>
+      <Time>2015-06-29T21:56:45+02:00</Time>
+      <Dependency>
+        <Key>obj\x86\Debug\Models\truck_0.xml</Key>
+        <Value>2015-06-29T21:57:43+02:00</Value>
+      </Dependency>
+    </Item>
+    <Item>
+      <Source>Models\truck.FBX</Source>
+      <Importer>FbxImporter</Importer>
+      <Options>IntermediateFile, DontCacheImportedData</Options>
+      <Output>obj\x86\Debug\Models\truck_0.xml</Output>
+      <Time>2015-06-29T21:56:45+02:00</Time>
+    </Item>
+    <Item>
+      <Source>Models\Android.FBX</Source>
+      <Name>Models\Android</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+      <Options>None</Options>
+      <Output>\\psf\Home\Documents\GraphicsPractical3\GraphicsPractical3\GraphicsPractical3\bin\x86\Debug\Content\Models\Android.xnb</Output>
+      <Time>2011-02-23T11:42:44+01:00</Time>
+      <Dependency>
+        <Key>obj\x86\Debug\Models\Android_0.xml</Key>
+        <Value>2015-06-29T22:00:16+02:00</Value>
+      </Dependency>
+    </Item>
+    <Item>
+      <Source>Models\Android.FBX</Source>
+      <Importer>FbxImporter</Importer>
+      <Options>IntermediateFile, DontCacheImportedData</Options>
+      <Output>obj\x86\Debug\Models\Android_0.xml</Output>
+      <Time>2011-02-23T11:42:44+01:00</Time>
+    </Item>
+    <Item>
+      <Source>Models\Alien.fbx</Source>
+      <Name>Models\Alien</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+      <Options>None</Options>
+      <Output>\\psf\Home\Documents\GraphicsPractical3\GraphicsPractical3\GraphicsPractical3\bin\x86\Debug\Content\Models\Alien.xnb</Output>
+      <Time>2015-06-29T22:03:10+02:00</Time>
+      <Dependency>
+        <Key>obj\x86\Debug\Models\Alien_0.xml</Key>
+        <Value>2015-06-29T22:05:36+02:00</Value>
+      </Dependency>
+    </Item>
+    <Item>
+      <Source>Models\Alien.fbx</Source>
+      <Importer>FbxImporter</Importer>
+      <Options>IntermediateFile, DontCacheImportedData</Options>
+      <Output>obj\x86\Debug\Models\Alien_0.xml</Output>
+      <Time>2015-06-29T22:03:10+02:00</Time>
+    </Item>
+    <Item>
+      <Source>Models\car.FBX</Source>
+      <Name>Models\car</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+      <Options>None</Options>
+      <Output>\\psf\Home\Documents\GraphicsPractical3\GraphicsPractical3\GraphicsPractical3\bin\x86\Debug\Content\Models\car.xnb</Output>
+      <Time>2015-03-16T18:43:24+01:00</Time>
+      <Dependency>
+        <Key>obj\x86\Debug\Models\car_0.xml</Key>
+        <Value>2015-06-29T22:14:17+02:00</Value>
+      </Dependency>
+    </Item>
+    <Item>
+      <Source>Models\car.FBX</Source>
+      <Importer>FbxImporter</Importer>
+      <Options>IntermediateFile, DontCacheImportedData</Options>
+      <Output>obj\x86\Debug\Models\car_0.xml</Output>
+      <Time>2015-03-16T18:43:24+01:00</Time>
+    </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
       <TargetPlatform>Windows</TargetPlatform>

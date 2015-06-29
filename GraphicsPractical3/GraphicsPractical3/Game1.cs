@@ -69,7 +69,7 @@ namespace GraphicsPractical3
 
             /* Initialize Ray Tracer */
             this.viewCenter = new Vector3(0, -0.1f, 0); // Center of bunny
-            var eyePosition = new Vector3(0, -0.3f, 1.2f);
+            var eyePosition = new Vector3(0, -0.3f, 300f);
             this.eye = new Eye(eyePosition, viewCenter - eyePosition, 1f);
 
             this.pixels = new Color[screen.Height * screen.Width];
@@ -94,9 +94,10 @@ namespace GraphicsPractical3
 
             // Init bunny model
             Material bunnyMaterial = new Material();
-            bunnyMaterial.Color = new Vector3(0.8f, 0.2f, 0.2f);
+            bunnyMaterial.Color = new Vector3(1f, 1f, 1f);//new Vector3(0.8f, 0.2f, 0.2f);
             bunnyMaterial.Reflective = false;
-            FileModel bunny = new FileModel(Content.Load<XnaModel>("Models/bunny"), bunnyMaterial, new Vector3(0, 0.1f, 0), new Vector3(-2, -2, 2));
+            bunnyMaterial.Glass = false;
+            FileModel bunny = new FileModel(Content.Load<XnaModel>("Models/bunny"), bunnyMaterial, new Vector3(0, 0.1f, 0), new Vector3(1, 1, 1));
 
             // Actually load
             //loader.LoadModel(Model.LoadFromSinglePrimitive(sphere));
@@ -112,7 +113,7 @@ namespace GraphicsPractical3
                 (
                     loader.Primitives,
                     loader.PointLights,
-                    regenerateBvhTree: false // Switch to false to load from file, when true the tree will be regenerated and written to a file
+                    regenerateBvhTree: true // Switch to false to load from file, when true the tree will be regenerated and written to a file
                 );
 
             this.IsMouseVisible = true;
@@ -150,9 +151,9 @@ namespace GraphicsPractical3
             // Rotate
             //
             if (keyState.IsKeyDown(Keys.Left))
-                viewAngle -= (float)(0.5 * Math.PI * 0.1);
+                viewAngle -= (float)(0.5 * Math.PI * 0.5);
             if (keyState.IsKeyDown(Keys.Right))
-                viewAngle += (float)(0.5 * Math.PI * 0.1);
+                viewAngle += (float)(0.5 * Math.PI * 0.5);
 
             // Zoom
             //

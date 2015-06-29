@@ -14,5 +14,6 @@ namespace GraphicsPractical3
         public Vector3 Color;
         public bool Reflective;
         public bool Translucent;
+        public bool Glass;
     }
 }
