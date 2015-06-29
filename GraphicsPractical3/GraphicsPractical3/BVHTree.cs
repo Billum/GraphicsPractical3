@@ -100,8 +100,7 @@ namespace GraphicsPractical3
 
             WriteNode(treeRoot, writer, 0, 'O');
 
-            writer.WriteLine("0"); // Last line indicator of nodes indicator
-            writer.WriteLine("E");
+            writer.WriteLine("0 E"); // Last line indicator (of node part)
 
             WriteIndices(writer);
 
@@ -114,8 +113,7 @@ namespace GraphicsPractical3
             if (n == null)
                 return;
 
-            writer.WriteLine(level);
-            writer.WriteLine(code);
+            writer.WriteLine(level.ToString() + ' ' + code.ToString()); // Ahead line
             writer.WriteLine(n.Start);
             writer.WriteLine(n.End);
             writer.WriteLine(n.BoundingBox.MinCorner.X);
@@ -139,89 +137,53 @@ namespace GraphicsPractical3
          * Unserialize
          */
 
-        private void GetStreamPos(StreamReader reader, out int charpos, out int charlen)
-        {
-            charpos = (int)(Int32)reader.GetType().InvokeMember(
-                "charPos",
-                BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.GetField,
-                null,
-                reader,
-                null);
-
-            charlen = (int)(Int32)reader.GetType().InvokeMember(
-                "charLen",
-                BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.GetField,
-                null,
-                reader,
-                null);
-        }
-
-        private void SetStreamPos(StreamReader reader, int charpos, int charlen)
-        {
-            reader.GetType().InvokeMember(
-                "charPos",
-                BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.SetField,
-                null,
-                reader,
-                new object[] { charpos });
-
-            reader.GetType().InvokeMember(
-                "charLen",
-                BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.SetField,
-                null,
-                reader,
-                new object[] { charlen });
-        }
-
         private void ReadFromFile(string filename)
         {
             var inputStream = new FileStream(filename, FileMode.Open);
-            var reader = new StreamReader(inputStream);
+            var reader = new LineReader(inputStream);
 
             ReadNode(ref treeRoot, reader, 0, 'O');
+            reader.ReadLine(); // Consume ahead line of termination indicator node part
+
             ReadIndices(reader);
 
             reader.Close();
             inputStream.Close();
         }
 
-        private void ReadNode(ref Node n, StreamReader reader, int level, char code)
+        private void ReadNode(ref Node n, LineReader reader, int level, char code)
         {
-            int charpos, charlen;
-            GetStreamPos(reader, out charpos, out charlen);
+            // Read one line ahead of stream position!
+            string[] pieces = reader.ReadLineAhead().Split(' ');
 
-            int rlevel = int.Parse(reader.ReadLine());
-            char rcode = char.Parse(reader.ReadLine());
+            int rlevel = int.Parse(pieces[0]);
+            char rcode = char.Parse(pieces[1]);
 
-            if (rlevel != level || rcode != code)
+            if (rlevel == level && rcode == code)
             {
-                if (rcode == 'E')
-                    return; // End!
+                // Consume ahead line! To get rid of it :)
+                reader.ReadLine();
 
-                // unread level and code lines
-                SetStreamPos(reader, charpos, charlen);
-                return;
+                n = new Node
+                {
+                    Start = int.Parse(reader.ReadLine()),
+                    End = int.Parse(reader.ReadLine()),
+                    BoundingBox = new BoundingBox(
+                        new Vector3(
+                            float.Parse(reader.ReadLine()),
+                            float.Parse(reader.ReadLine()),
+                            float.Parse(reader.ReadLine())
+                            ),
+                        new Vector3(
+                            float.Parse(reader.ReadLine()),
+                            float.Parse(reader.ReadLine()),
+                            float.Parse(reader.ReadLine())
+                            ))
+                };
+
+                ReadNode(ref n.LeftChild, reader, level + 1, 'L');
+                ReadNode(ref n.RightChild, reader, level + 1, 'R');
             }
-
-            n = new Node
-            {
-                Start = int.Parse(reader.ReadLine()),
-                End = int.Parse(reader.ReadLine()),
-                BoundingBox = new BoundingBox(
-                    new Vector3(
-                        float.Parse(reader.ReadLine()),
-                        float.Parse(reader.ReadLine()),
-                        float.Parse(reader.ReadLine())
-                        ),
-                    new Vector3(
-                        float.Parse(reader.ReadLine()),
-                        float.Parse(reader.ReadLine()),
-                        float.Parse(reader.ReadLine())
-                        ))
-            };
-
-            ReadNode(ref n.LeftChild, reader, level + 1, 'L');
-            ReadNode(ref n.RightChild, reader, level + 1, 'R');
         }
 
         private void ReadIndices(StreamReader reader)

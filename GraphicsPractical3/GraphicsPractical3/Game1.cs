@@ -30,7 +30,6 @@ namespace GraphicsPractical3
         private Color[] pixels;
 
         // Game objects and variables
-        private Camera camera;
         private Screen screen;
         private Eye eye;
         private Engine engine;

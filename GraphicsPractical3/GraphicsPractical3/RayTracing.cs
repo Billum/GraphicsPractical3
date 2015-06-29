@@ -88,7 +88,7 @@ namespace GraphicsPractical3.RayTracing
             primitives = p;
             pointLights = pL;
 
-            bvh = new BVHTree(primitives);
+            bvh = new BVHTree(primitives, "main.bvh");
         }
 
         public Color[] Update(Eye e, Screen s, Primitive[] p = null, PointLight[] pL = null)
