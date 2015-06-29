@@ -69,7 +69,7 @@ namespace GraphicsPractical3
 
             /* Initialize Ray Tracer */
             this.viewCenter = new Vector3(0, -0.1f, 0); // Center of bunny
-            var eyePosition = new Vector3(0, -0.3f, 1000f);
+            var eyePosition = new Vector3(0, -0.3f, 1.2f);
             this.eye = new Eye(eyePosition, viewCenter - eyePosition, 1f);
 
             this.pixels = new Color[screen.Height * screen.Width];
@@ -96,7 +96,7 @@ namespace GraphicsPractical3
             Material bunnyMaterial = new Material();
             bunnyMaterial.Color = new Vector3(0.8f, 0.2f, 0.2f);
             bunnyMaterial.Reflective = false;
-            FileModel bunny = new FileModel(Content.Load<XnaModel>("Models/bunny"), bunnyMaterial, new Vector3(0, 0.1f, 0), new Vector3(1, 1, 1));
+            FileModel bunny = new FileModel(Content.Load<XnaModel>("Models/bunny"), bunnyMaterial, new Vector3(0, 0.1f, 0), new Vector3(-2, -2, 2));
 
             // Actually load
             //loader.LoadModel(Model.LoadFromSinglePrimitive(sphere));
@@ -112,7 +112,7 @@ namespace GraphicsPractical3
                 (
                     loader.Primitives,
                     loader.PointLights,
-                    regenerateBvhTree: true // Switch to false to load from file, when true the tree will be regenerated and written to a file
+                    regenerateBvhTree: false // Switch to false to load from file, when true the tree will be regenerated and written to a file
                 );
 
             this.IsMouseVisible = true;
