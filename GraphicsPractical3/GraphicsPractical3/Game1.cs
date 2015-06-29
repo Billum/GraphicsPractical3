@@ -34,12 +34,17 @@ namespace GraphicsPractical3
         private Eye eye;
         private Engine engine;
 
+        // View variables
+        private float viewAngle;
+
+        // Diagnostic variables
         private System.Diagnostics.Stopwatch sw;
 
         public Game1()
         {
             this.graphics = new GraphicsDeviceManager(this);
             this.Content.RootDirectory = "Content";
+            this.viewAngle = 0f;
             this.sw = new System.Diagnostics.Stopwatch();
         }
 
@@ -62,7 +67,7 @@ namespace GraphicsPractical3
 
             /* Initialize Ray Tracer */
 
-            this.eye = new Eye(new Vector3(1.5f, 0, 2), new Vector3(-2, 0, -1), 1f);
+            this.eye = new Eye(new Vector3(0, -0.3f, -1.2f), new Vector3(0, 0.2f, 1), 1f);
             this.pixels = new Color[screen.Height * screen.Width];
             this.texture = new Texture2D(GraphicsDevice, screen.Width, screen.Height);
 
@@ -87,7 +92,7 @@ namespace GraphicsPractical3
             Material bunnyMaterial = new Material();
             bunnyMaterial.Color = new Vector3(0.8f, 0.2f, 0.2f);
             bunnyMaterial.Reflective = false;
-            FileModel bunny = new FileModel(Content.Load<XnaModel>("Models/bunny"), bunnyMaterial, new Vector3(0, 0.1f, 1.2f), new Vector3(-2, -2, 2));
+            FileModel bunny = new FileModel(Content.Load<XnaModel>("Models/bunny"), bunnyMaterial, new Vector3(0, 0.1f, 0), new Vector3(-2, -2, 2));
 
             // Actually load
             //loader.LoadModel(Model.LoadFromSinglePrimitive(sphere));
@@ -99,9 +104,12 @@ namespace GraphicsPractical3
              *  primitives are converted to models before loading using
              *  LoadFromSinglePrimitve.
              */
-            this.engine = new Engine(
-                loader.Primitives,
-                loader.PointLights);
+            this.engine = new Engine
+                (
+                    loader.Primitives,
+                    loader.PointLights,
+                    regenerateBvhTree: false // Switch to false to load from file, when true the tree will be regenerated and written to a file
+                );
 
             this.IsMouseVisible = true;
             base.Initialize();
@@ -113,22 +121,44 @@ namespace GraphicsPractical3
             this.spriteBatch = new SpriteBatch(this.GraphicsDevice);
         }
 
+        protected void UpdateEyePosition()
+        {
+            var ep = eye.Position;
+            var r = Math.Sqrt(Math.Pow(eye.Position.X, 2) + Math.Pow(eye.Position.Z, 2));
+            var x = ep.X + r * Math.Cos(viewAngle);
+            var z = ep.Z + r * Math.Cos(viewAngle);
+            eye.Position.X = (float) x;
+            eye.Position.Z = (float) z;
+            eye.Direction = (new Vector3(0, 0.2f, 0) - eye.Position) * -1;
+            eye.Direction.Normalize();
+        }
+
         protected override void Update(GameTime gameTime)
         {
             KeyboardState keyState = Keyboard.GetState();
 
             if (keyState.IsKeyDown(Keys.Escape))
-            {
                 Exit();
-            }
+
+            // Rotate
+            //
             if (keyState.IsKeyDown(Keys.Left))
             {
-                eye.UpdateDirection(MathHelper.ToRadians(90));
+                viewAngle -= (float) (0.5 * Math.PI);
+                UpdateEyePosition();
             }
             if (keyState.IsKeyDown(Keys.Right))
             {
-                eye.UpdateDirection(-1 * MathHelper.ToRadians(90));
+                viewAngle += (float)(0.5 * Math.PI);
+                UpdateEyePosition();
             }
+
+            // Zoom
+            //
+            if (keyState.IsKeyDown(Keys.Up))
+                Vector3.Multiply(ref eye.Position, 0.9f, out eye.Position);
+            if (keyState.IsKeyDown(Keys.Down))
+                Vector3.Multiply(ref eye.Position, 1.1f, out eye.Position);
 
             base.Update(gameTime);
         }

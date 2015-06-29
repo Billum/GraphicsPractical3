@@ -83,12 +83,18 @@ namespace GraphicsPractical3.RayTracing
 
         private BVHTree bvh;
 
-        public Engine(Primitive[] p, PointLight[] pL)
+        public Engine(Primitive[] p, PointLight[] pL, bool regenerateBvhTree = false)
         {
             primitives = p;
             pointLights = pL;
 
-            bvh = new BVHTree(primitives, "main.bvh");
+            if (regenerateBvhTree)
+            {
+                bvh = new BVHTree(primitives);
+                bvh.SaveToFile("main.bvh"); // Also save to file
+            }
+            else
+                bvh = new BVHTree(primitives, "main.bvh"); // Simply load from file
         }
 
         public Color[] Update(Eye e, Screen s, Primitive[] p = null, PointLight[] pL = null)
