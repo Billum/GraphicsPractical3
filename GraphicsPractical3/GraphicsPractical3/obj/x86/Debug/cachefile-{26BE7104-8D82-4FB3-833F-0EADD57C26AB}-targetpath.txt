@@ -2,3 +2,4 @@ Content\Models\bunny.xnb
 Content\Models\femalehead.xnb
 Content\Models\Teapot.xnb
 Content\Models\cube.xnb
+Content\Models\balonnen.xnb

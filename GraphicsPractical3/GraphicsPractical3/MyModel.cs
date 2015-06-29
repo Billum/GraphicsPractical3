@@ -66,7 +66,7 @@ namespace GraphicsPractical3
                      */
 
                     var indices = new short[meshPart.PrimitiveCount * 3];
-                    meshPart.IndexBuffer.GetData<short>(0
+                    meshPart.IndexBuffer.GetData<short>(  0
                                                         , indices
                                                         , 0
                                                         , meshPart.PrimitiveCount * 3);
@@ -76,7 +76,7 @@ namespace GraphicsPractical3
                      *  and vertices buffer;
                      */
 
-                    for (int i = woff; i < meshPart.PrimitiveCount; i++)
+                    for (int i = woff; i < (woff + meshPart.PrimitiveCount); i++)
                     {
                         int vi = i - woff;
                         int i0 = indices[vi * 3 + 0],
@@ -85,7 +85,15 @@ namespace GraphicsPractical3
                         Primitives[i] = new Triangle( vertices[i0]
                                                     , vertices[i1]
                                                     , vertices[i2]);
+
+                        // Find color in model if it exists
+                        //Vector3 color = Vector3.Zero;
+                        //if (mesh.Effects.Count() > 0)
+                        //    if (mesh.Effects[0].Parameters["DiffuseColor"] != null)
+                        //        color = mesh.Effects[0].Parameters["DiffuseColor"].GetValueVector3();
+
                         Primitives[i].Material = material; // Set material
+                        //Primitives[i].Material.Color = color; // Apply possibly found color
                     }
 
                     woff += meshPart.PrimitiveCount;
