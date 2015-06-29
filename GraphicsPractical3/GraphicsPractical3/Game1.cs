@@ -36,6 +36,7 @@ namespace GraphicsPractical3
 
         // View variables
         private float viewAngle;
+        private Vector3 viewCenter;
 
         // Diagnostic variables
         private System.Diagnostics.Stopwatch sw;
@@ -45,6 +46,7 @@ namespace GraphicsPractical3
             this.graphics = new GraphicsDeviceManager(this);
             this.Content.RootDirectory = "Content";
             this.viewAngle = 0f;
+            this.viewCenter = Vector3.Zero;
             this.sw = new System.Diagnostics.Stopwatch();
         }
 
@@ -66,8 +68,10 @@ namespace GraphicsPractical3
             this.graphics.ApplyChanges();
 
             /* Initialize Ray Tracer */
+            this.viewCenter = new Vector3(0, -0.1f, 0); // Center of bunny
+            var eyePosition = new Vector3(0, -0.3f, 1.2f);
+            this.eye = new Eye(eyePosition, viewCenter - eyePosition, 1f);
 
-            this.eye = new Eye(new Vector3(0, -0.3f, -1.2f), new Vector3(0, 0.2f, 1), 1f);
             this.pixels = new Color[screen.Height * screen.Width];
             this.texture = new Texture2D(GraphicsDevice, screen.Width, screen.Height);
 
@@ -121,16 +125,19 @@ namespace GraphicsPractical3
             this.spriteBatch = new SpriteBatch(this.GraphicsDevice);
         }
 
-        protected void UpdateEyePosition()
+        protected void UpdateEye()
         {
+            // Update eye so that it rotates around the view center
+            // with angle viewAngle
             var ep = eye.Position;
-            var r = Math.Sqrt(Math.Pow(eye.Position.X, 2) + Math.Pow(eye.Position.Z, 2));
-            var x = ep.X + r * Math.Cos(viewAngle);
-            var z = ep.Z + r * Math.Cos(viewAngle);
-            eye.Position.X = (float) x;
-            eye.Position.Z = (float) z;
-            eye.Direction = (new Vector3(0, 0.2f, 0) - eye.Position) * -1;
-            eye.Direction.Normalize();
+            var r = Math.Sqrt (   Math.Pow(viewCenter.X - eye.Position.X, 2)
+                                + Math.Pow(viewCenter.Z - eye.Position.Z, 2)
+                              );
+            var x = viewCenter.X + (float) (r * Math.Cos(viewAngle));
+            var y = eye.Position.Y;
+            var z = viewCenter.Z + (float) (r * Math.Sin(viewAngle));
+            ep = new Vector3(x, y, z);
+            this.eye = new Eye(ep, viewCenter - ep, 1f);
         }
 
         protected override void Update(GameTime gameTime)
@@ -143,15 +150,9 @@ namespace GraphicsPractical3
             // Rotate
             //
             if (keyState.IsKeyDown(Keys.Left))
-            {
-                viewAngle -= (float) (0.5 * Math.PI);
-                UpdateEyePosition();
-            }
+                viewAngle -= (float)(0.5 * Math.PI * 0.1);
             if (keyState.IsKeyDown(Keys.Right))
-            {
-                viewAngle += (float)(0.5 * Math.PI);
-                UpdateEyePosition();
-            }
+                viewAngle += (float)(0.5 * Math.PI * 0.1);
 
             // Zoom
             //
@@ -159,6 +160,8 @@ namespace GraphicsPractical3
                 Vector3.Multiply(ref eye.Position, 0.9f, out eye.Position);
             if (keyState.IsKeyDown(Keys.Down))
                 Vector3.Multiply(ref eye.Position, 1.1f, out eye.Position);
+
+            UpdateEye();
 
             base.Update(gameTime);
         }
