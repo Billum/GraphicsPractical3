@@ -40,6 +40,50 @@
 		
 	--------------------
 	
+	Code layout:
+	
+		RayTracing.cs :
+			- 	Consists of the Eye and Screen class and the Engine class.
+			- 	The Engine class has all function related to illumination/reflection/refraction
+				tracing and loads the BVHTree.
+			- 	It also controls whether the BVHTree is loaded from a file or generated.
+			
+		BVHTree.cs :
+			- 	Implements the BVH tree: the Engine class calls TryHit on its BVHTree
+				to intersect it with a ray.
+		
+		LineReader.cs :
+			-	Used for deserialization of BVH tree.
+		
+		Material.cs :
+			-	Every Primitive has material settings: Reflective (boolean), Glass (boolean)
+				and the Color.
+		
+		Geometry.cs	  :
+			-	Has the abstract Primitive class and it subclasses Sphere/Triangle.
+			- 	Any primitive implements the following functions: Normal(), HitDistance() -> float,
+				Hit(), Center(), BoundingBox(). All primitives also contain Material information like
+				color and reflection.
+			-	Contains the definition for BoundingBox.
+			-	Contains Model, both Primitives and MyModel use this as parent class.
+			
+		ModelLoader.cs :
+			-	Loads Model classes (Primitives and MyModel) and extracts all primitives.
+			-	Used by Engine to get a list of all primitives in the scene.
+		
+		MyModel.cs :
+			-	Loads a set of primitives from a FBX-file. Can be loaded by the ModelLoader.
+			
+		Game1.cs :
+			-	Loads all needed primitives (from Models) with the ModelLoader and starts
+				the ray tracing Engine class.
+			-	Calls Update() on the engine.
+			-	Updates FrameRate in Window Title.
+			-	Detects key strokes and changes angle and zoom accordingly.
+			- 	Calculates Eye position and direction after moving.
+		
+	--------------------
+	
 	The Demo:
 			
 		When the game starts it automatically loads the demo scene, the following keys

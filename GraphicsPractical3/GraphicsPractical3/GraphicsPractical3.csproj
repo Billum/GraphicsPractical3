@@ -73,7 +73,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BVHTree.cs" />
-    <Compile Include="Camera.cs" />
     <Compile Include="Geometry.cs" />
     <Compile Include="LineReader.cs" />
     <Compile Include="Material.cs" />
