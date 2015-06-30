@@ -1,9 +1,9 @@
     
-    --------------------
+    --------------------------------------------
     
-    Graphics Practical 3
+    Graphics Practical 3    /    H6 : Ray Tracer
     
-    --------------------
+    --------------------------------------------
     
     Students:
     
@@ -11,14 +11,14 @@
         - Adriaan Kisjes        4279093
         - Tomas Billum          4161882
     
-    --------------------
+    --------------------------------------------
     
     Work split:
     
         Adriaan and Tomas did the Geometry math and primitive intersections.
-        Gerwin did the BVH tree and ModelLoader.
+        Gerwin did the BVH tree and MyModel FBX model loader.
         
-    --------------------
+    --------------------------------------------
     
     Important:
     
@@ -28,23 +28,23 @@
         regenerateBvhTree must be set to true. (In Game1 -> Initialize -> in the Engine
         constructor).
         
-    --------------------
+    --------------------------------------------
         
     Features implemented:
         
-        - Full whitted style ray tracking
-        - Capability to load FBX models for showing
+        - Whitted style ray tracing
+        - Capability to load FBX models
         - Serializable BVH Tree
         - Glass (refraction/reflection)
         - Reflective surfaces
         
-    --------------------
+    --------------------------------------------
     
     Code layout:
     
         RayTracing.cs :
             -   Consists of the Eye and Screen class and the Engine class.
-            -   The Engine class has all function related to illumination/reflection/refraction
+            -   The Engine class has all function related to illumination,
                 tracing and loads the BVHTree.
             -   It also controls whether the BVHTree is loaded from a file or generated.
             
@@ -56,14 +56,13 @@
             -   Used for deserialization of BVH tree.
         
         Material.cs :
-            -   Every Primitive has material settings: Reflective (boolean), Glass (boolean)
-                and the Color.
+            -   Every Primitive has an instance of this class which among other things controls
+                the color.
         
         Geometry.cs   :
             -   Has the abstract Primitive class and it subclasses Sphere/Triangle.
             -   Any primitive implements the following functions: Normal(), HitDistance() -> float,
-                Hit(), Center(), BoundingBox(). All primitives also contain Material information like
-                color and reflection.
+                Hit(), Center(), BoundingBox(). All primitives also contain Material info.
             -   Contains the definition for BoundingBox.
             -   Contains Model, both Primitives and MyModel use this as parent class.
             
@@ -82,7 +81,7 @@
             -   Detects key strokes and changes angle and zoom accordingly.
             -   Calculates Eye position and direction after moving.
         
-    --------------------
+    --------------------------------------------
     
     The Demo:
             
