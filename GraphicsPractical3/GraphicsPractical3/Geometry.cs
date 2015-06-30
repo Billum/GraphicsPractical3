@@ -75,6 +75,27 @@ namespace GraphicsPractical3.Geometry
 
             return 2 * (side1 + side2 + side3);
         }
+
+        public static BoundingBox OverPrimitives(IEnumerable<Primitive> primitives)
+        {
+            Vector3 minCorner = new Vector3(float.MaxValue, float.MaxValue, float.MaxValue);
+            Vector3 maxCorner = new Vector3(float.MinValue, float.MinValue, float.MinValue);
+
+            foreach (var p in primitives)
+            {
+                var bbox = p.BoundingBox();
+
+                minCorner.X = Math.Min(minCorner.X, bbox.MinCorner.X);
+                minCorner.Y = Math.Min(minCorner.Y, bbox.MinCorner.Y);
+                minCorner.Z = Math.Min(minCorner.Z, bbox.MinCorner.Z);
+
+                maxCorner.X = Math.Max(maxCorner.X, bbox.MaxCorner.X);
+                maxCorner.Y = Math.Max(maxCorner.Y, bbox.MaxCorner.Y);
+                maxCorner.Z = Math.Max(maxCorner.Z, bbox.MaxCorner.Z);
+            }
+
+            return new BoundingBox(minCorner, maxCorner);
+        }
     }
 
     public abstract class Primitive

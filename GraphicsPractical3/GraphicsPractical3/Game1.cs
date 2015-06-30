@@ -45,7 +45,7 @@ namespace GraphicsPractical3
         {
             this.graphics = new GraphicsDeviceManager(this);
             this.Content.RootDirectory = "Content";
-            this.viewAngle = 0f;
+            this.viewAngle = 1f * (float) Math.PI + 1f;
             this.viewCenter = Vector3.Zero;
             this.sw = new System.Diagnostics.Stopwatch();
         }
@@ -69,8 +69,10 @@ namespace GraphicsPractical3
 
             /* Initialize Ray Tracer */
             this.viewCenter = new Vector3(0, -0.1f, 0); // Center of bunny
-            var eyePosition = new Vector3(0, -0.3f, 1.2f);
+            var eyePosition = new Vector3(0, -0.5f, 3f);
             this.eye = new Eye(eyePosition, viewCenter - eyePosition, 1f);
+
+            UpdateEye();
 
             this.pixels = new Color[screen.Height * screen.Width];
             this.texture = new Texture2D(GraphicsDevice, screen.Width, screen.Height);
@@ -79,31 +81,79 @@ namespace GraphicsPractical3
 
             ModelLoader loader = new ModelLoader();
 
-            // Add lights
-            loader.LoadPointLight(new Light(new Vector3(20, -50, -30), new Vector3(80, 80, 80)));
-            loader.LoadPointLight(new Light(new Vector3(50, 20, -30), new Vector3(80, 80, 80)));
-            loader.LoadPointLight(new Light(eye.Position, eye.Direction)); // Always a flashlight behind the camera :)
-
-            // Init models (also single-primitve-models)
-            Primitive sphere = new Sphere(new Vector3(0, 0, 8), 1f);
-            sphere.Material.Color = new Vector3(0.5f, 0.5f, 0f);
-
-            Primitive triangle = new Triangle(new Vector3(-3, -3, 8), new Vector3(3, 3, 8), new Vector3(-3, 3, 8));
-            triangle.Material.Color = new Vector3(0.1f, 0.75f, 0.8f);
-            triangle.Material.Reflective = false;
+            /* ---------------------------------------------------
+             *      MIDDLE BUNNY
+             */
 
             // Init bunny model
-            Material bunnyMaterial = new Material();
-            bunnyMaterial.Color = new Vector3(0.8f, 0.4f, 0.2f);
-            bunnyMaterial.Reflective = false;
-            bunnyMaterial.Glass = false;
-            FileModel bunny = new FileModel(Content.Load<XnaModel>("Models/bunny"), bunnyMaterial, new Vector3(0, 0.1f, 0), new Vector3(2, -2, -2));
+            Material bunny1Material = new Material();
+            bunny1Material.Color = new Vector3(0.8f, 0.6f, 0.2f);
+            FileModel bunny1 =
+                new FileModel(Content.Load<XnaModel>("Models/bunny"),
+                              bunny1Material,
+                              new Vector3(0, 0.1f, 0),
+                              new Vector3(2, -2, -2));
 
             // Actually load
-            //loader.LoadModel(Model.LoadFromSinglePrimitive(sphere));
-            //loader.LoadModel(Model.LoadFromSinglePrimitive(triangle));
-            loader.LoadModel(bunny);
+            loader.LoadModel(bunny1);
 
+            /* ---------------------------------------------------
+             *      FRONT BUNNY
+             */
+
+            // Init bunny model
+            Material bunny2Material = new Material();
+            bunny2Material.Color = new Vector3(0.8f, 0.3f, 0.2f);
+            FileModel bunny2 =
+                new FileModel(Content.Load<XnaModel>("Models/bunny"),
+                              bunny2Material,
+                              new Vector3(0f, 0.1f, -0.3f),
+                              new Vector3(2, -2, -2));
+
+            // Actually load
+            loader.LoadModel(bunny2);
+
+            /* ---------------------------------------------------
+             *      BACK BUNNY
+             */
+
+            // Init bunny model
+            Material bunny3Material = new Material();
+            bunny3Material.Color = new Vector3(0.2f, 0.4f, 0.8f);
+            FileModel bunny3 =
+                new FileModel(Content.Load<XnaModel>("Models/bunny"),
+                              bunny3Material,
+                              new Vector3(0, 0.1f, 0.3f),
+                              new Vector3(2, -2, -2));
+
+            // Actually load
+            loader.LoadModel(bunny3);
+
+            /* ---------------------------------------------------
+             *      GROUND
+             */
+
+            var groundTriangle = new Triangle (
+                                                new Vector3(-0.4f, 0.0274f, -0.7f),
+                                                new Vector3(-0.4f, 0.0274f, 0.7f),
+                                                new Vector3(0.4f, 0.0274f, 0.7f)
+                                              );
+
+            var groundTriangle2 = new Triangle(
+                                                new Vector3(-0.4f, 0.0274f, -0.7f),
+                                                new Vector3(0.4f, 0.0274f, 0.7f),
+                                                new Vector3(0.4f, 0.0274f, -0.7f)
+                                              );
+
+            groundTriangle.Material.Color = new Vector3(0.1f, 0.7f, 0.1f);
+            groundTriangle2.Material.Color = new Vector3(0.1f, 0.7f, 0.1f);
+            loader.LoadModel(Model.LoadFromSinglePrimitive(groundTriangle));
+            loader.LoadModel(Model.LoadFromSinglePrimitive(groundTriangle2));
+
+            // Add lights
+            //
+            loader.LoadPointLight(new Light(new Vector3(-30, -20, -30), new Vector3(80, 80, 80)));
+            
             /*
              *  Load engine with primites and point lights managed by the model loader,
              *  primitives are converted to models before loading using
@@ -113,7 +163,7 @@ namespace GraphicsPractical3
                 (
                     loader.Primitives,
                     loader.PointLights,
-                    regenerateBvhTree: true // Switch to false to load from file, when true the tree will be regenerated and written to a file
+                    regenerateBvhTree: false // Switch to false to load from file, when true the tree will be regenerated and written to a file
                 );
 
             this.IsMouseVisible = true;
@@ -151,9 +201,9 @@ namespace GraphicsPractical3
             // Rotate
             //
             if (keyState.IsKeyDown(Keys.Left))
-                viewAngle -= (float)(0.5 * Math.PI * 0.5);
+                viewAngle -= (float)(0.5 * Math.PI * 0.1);
             if (keyState.IsKeyDown(Keys.Right))
-                viewAngle += (float)(0.5 * Math.PI * 0.5);
+                viewAngle += (float)(0.5 * Math.PI * 0.1);
 
             // Zoom
             //

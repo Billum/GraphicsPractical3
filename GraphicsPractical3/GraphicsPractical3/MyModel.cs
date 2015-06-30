@@ -86,14 +86,7 @@ namespace GraphicsPractical3
                                                     , vertices[i1]
                                                     , vertices[i2]);
 
-                        // Find color in model if it exists
-                        //Vector3 color = Vector3.Zero;
-                        //if (mesh.Effects.Count() > 0)
-                        //    if (mesh.Effects[0].Parameters["DiffuseColor"] != null)
-                        //        color = mesh.Effects[0].Parameters["DiffuseColor"].GetValueVector3();
-
                         Primitives[i].Material = material; // Set material
-                        //Primitives[i].Material.Color = color; // Apply possibly found color
                     }
 
                     woff += meshPart.PrimitiveCount;

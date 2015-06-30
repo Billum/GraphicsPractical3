@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.IO;
 using Microsoft.Xna.Framework;
 using Ray = GraphicsPractical3.Geometry.Ray;
 using Primitive = GraphicsPractical3.Geometry.Primitive;
@@ -88,7 +89,7 @@ namespace GraphicsPractical3.RayTracing
             primitives = p;
             pointLights = pL;
 
-            if (regenerateBvhTree)
+            if (regenerateBvhTree || (!regenerateBvhTree && !File.Exists("main.bvh")))
             {
                 bvh = new BVHTree(primitives);
                 bvh.SaveToFile("main.bvh"); // Also save to file
@@ -139,13 +140,13 @@ namespace GraphicsPractical3.RayTracing
                     return (0.1f * tracer(Reflection(r, h))) + (0.9f * tracer(Refraction(r, h, 9, 10)));
 
                 if (h.Material.Reflective)
-                    return tracer(Reflection(r, h));
+                    return (0.2f * tracer(Reflection(r, h))) + (0.8f * comineColorLight(h.Material.Color, DirectIllumination(r, h)));
 
                 return comineColorLight(h.Material.Color, DirectIllumination(r, h));
             }
             else
-                // No hit, black background
-                return new Vector3 (0f, 0f, 0f);
+                // No hit, ligth blue background
+                return new Vector3 (0.9f, 0.9f, 1f);
         }
 
         private Vector3 comineColorLight(Vector3 color, Vector3 light)
@@ -159,27 +160,6 @@ namespace GraphicsPractical3.RayTracing
 
         private Primitive hit(Ray r, Primitive o = null, float d = float.MaxValue)
         {
-            /*
-            float shortest = d;
-            Primitive thing = null;
-            foreach (Primitive p in primitives)
-            {
-                if (o == null || p != o)
-                {
-                    float pHit = p.HitDistance(r);
-                    if (pHit != 0.0f)
-                    {
-                        if (pHit < shortest)
-                        {
-                            shortest = pHit;
-                            thing = p;
-                        }
-                    }
-                }
-            }
-            return thing;
-             * */
-
             return bvh.TryHit(r, o, d);
         }
 
